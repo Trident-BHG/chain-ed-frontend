@@ -1,7 +1,17 @@
 import { Inter } from "next/font/google";
-import "./globals.css";
+import { Providers } from "@/app/providers";
+import NavBar from "@/app/components/NavBar";
+import localFont from "next/font/local";
+// import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+
+const gereralSans = localFont({
+  // src: "@/app/font/generalSans_variable.woff2",
+  src: "./fonts/generalSans_variable.woff2",
+  display: "swap",
+  variable: "--font-generalSans",
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -10,8 +20,13 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${gereralSans.variable} font-sans`}>
+      <body>
+        <Providers>
+          <NavBar />
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
