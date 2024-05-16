@@ -26,6 +26,15 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.connect-wallet-button button{
+  /* border: 1px solid black !important; */
+  border-radius: 0 !important;
+  /* border-color: var(--chakra-colors-brand-500) !important; */
+  height: var(--chakra-sizes-10);
+  min-width: var(--chakra-sizes-10);
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

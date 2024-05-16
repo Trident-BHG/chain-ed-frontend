@@ -20,6 +20,9 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import ArrowRight from "@/app/components/icons/ArrowRight";
+import { ConnectButton } from "@web3uikit/web3";
+import { useMoralis } from "react-moralis";
+import { useEffect } from "react";
 
 const Links = ["Dashboard", "Projects", "Team"];
 
@@ -41,8 +44,43 @@ const NavLink = (props) => {
   );
 };
 
+
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    enableWeb3,
+    isWeb3EnableLoading,
+    account,
+    isWeb3Enabled,
+    Moralis,
+    deactivateWeb3,
+    provider
+  } = useMoralis();
+
+  // useEffect(() => {
+  //   if (isWeb3Enabled) {
+  //     console.log("-----------------");
+  //     console.log(provider);
+  //     console.log("-----------------");
+  //     return;
+  //   }
+  //   if (
+  //     typeof window != undefined &&
+  //     window.localStorage.getItem("Connected")
+  //   ) {
+  //     enableWeb3();
+  //   }
+  // }, [isWeb3Enabled]);
+  
+  // useEffect(() => {
+  //   Moralis.onAccountChanged((account) => {
+  //     if (account == null) {
+  //       window.localStorage.removeItem("Connected");
+  //       deactivateWeb3();
+  //     }
+  //   });
+  // }, []);
+  
 
   return (
     <>
@@ -68,12 +106,31 @@ export default function NavBar() {
             </Box>
           </HStack>
           <Flex alignItems={"center"}>
-            <Button mr={4} rightIcon={<ArrowRight color={"white"} />}>
+            {/* <Button mr={4} rightIcon={<ArrowRight color={"white"} />}>
               Explore Courses
-            </Button>
-            <Button variant="outline" rightIcon={<ArrowRight />}>
+            </Button> */}
+            
+            {/* {account || isWeb3Enabled ? (
+            <div><Button variant="outline">
+              accountBalance
+              </Button></div>
+            ):
+            <Button variant="outline" rightIcon={<ArrowRight />} onClick={async () => {
+            console.log(await enableWeb3());
+            console.log(isWeb3Enabled);
+            if (typeof window !== "undefined") {
+              window.localStorage.setItem("Connected", "Injected");
+            }
+          }}
+          disabled={isWeb3EnableLoading} id="connect-wallet-button">
               Connect Wallet
             </Button>
+          } */}
+
+           <div >
+            <ConnectButton moralisAuth={false} class="connect-wallet-button"/>
+           </div>
+            
             {/* <Menu> */}
             {/*   <MenuButton */}
             {/*     as={Button} */}

@@ -50,7 +50,7 @@ export default function HeroSection() {
             spacing={{ base: 4, sm: 6 }}
             direction={{ base: "column", sm: "row" }}
           >
-            <Button
+            {/* <Button
               size={"lg"}
               fontWeight={"normal"}
               px={6}
@@ -58,7 +58,7 @@ export default function HeroSection() {
               rightIcon={<ArrowRight />}
             >
               Connect Wallet
-            </Button>
+            </Button> */}
             <Button
               size={"lg"}
               fontWeight={"normal"}
