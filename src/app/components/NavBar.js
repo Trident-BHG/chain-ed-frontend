@@ -22,7 +22,8 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import { ConnectButton } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import {ethers} from "ethers";
 
 const Links = ["Dashboard", "Projects", "Team"];
 
@@ -57,29 +58,43 @@ export default function NavBar() {
     provider
   } = useMoralis();
 
-  // useEffect(() => {
-  //   if (isWeb3Enabled) {
-  //     console.log("-----------------");
-  //     console.log(provider);
-  //     console.log("-----------------");
-  //     return;
-  //   }
-  //   if (
-  //     typeof window != undefined &&
-  //     window.localStorage.getItem("Connected")
-  //   ) {
-  //     enableWeb3();
-  //   }
-  // }, [isWeb3Enabled]);
+  var [accountBalance, setAccountBalance] = useState(0);
+
+  useEffect(() => {
+    if (isWeb3Enabled) {
+      console.log(`Connected Account ${account}`);
+      updateAccountBalance();
+      return;
+    }
+    if (
+      typeof window != undefined &&
+      window.localStorage.getItem("Connected")
+    ) {
+      enableWeb3();
+    }
+  }, [isWeb3Enabled]);
   
-  // useEffect(() => {
-  //   Moralis.onAccountChanged((account) => {
-  //     if (account == null) {
-  //       window.localStorage.removeItem("Connected");
-  //       deactivateWeb3();
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    Moralis.onAccountChanged((account) => {
+      if (account == null) {
+        window.localStorage.removeItem("Connected");
+        deactivateWeb3();
+        console.log("Account Disconnected");
+      }
+    });
+  }, []);
+
+  async function updateAccountBalance(){
+    accountBalance = await window.ethereum.request({
+      "method":"eth_getBalance",
+      "params":[
+        account.toString()
+      ]
+    });
+    const accountBalanceInt = parseInt(accountBalance);
+    console.log(accountBalanceInt);
+    setAccountBalance((ethers.utils.formatEther(accountBalanceInt.toString())).slice(0,6));
+  }
   
 
   return (
@@ -110,9 +125,9 @@ export default function NavBar() {
               Explore Courses
             </Button> */}
             
-            {/* {account || isWeb3Enabled ? (
+            {account || isWeb3Enabled ? (
             <div><Button variant="outline">
-              accountBalance
+              {accountBalance} ETH | {account.slice(0,4) + "..." + account.slice(-4)}
               </Button></div>
             ):
             <Button variant="outline" rightIcon={<ArrowRight />} onClick={async () => {
@@ -122,14 +137,14 @@ export default function NavBar() {
               window.localStorage.setItem("Connected", "Injected");
             }
           }}
-          disabled={isWeb3EnableLoading} id="connect-wallet-button">
+          disabled={isWeb3EnableLoading}>
               Connect Wallet
             </Button>
-          } */}
+          }
 
-           <div >
+           {/* <div >
             <ConnectButton moralisAuth={false} class="connect-wallet-button"/>
-           </div>
+           </div> */}
             
             {/* <Menu> */}
             {/*   <MenuButton */}
