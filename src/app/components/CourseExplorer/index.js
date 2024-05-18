@@ -31,27 +31,21 @@ export default function CourseExplorer() {
         <TabPanel>
           <SimpleGrid templateColumns="repeat(4, 1fr)" gap={6}>
             {courses.map((course, i) => (
-              /* <Box > */
               <CourseCard course={course} key={`course-index-${i}`} />
-              /* </Box> */
             ))}
           </SimpleGrid>
         </TabPanel>
         <TabPanel>
           <SimpleGrid templateColumns="repeat(4, 1fr)" gap={6}>
             {popularCourses.map((course, i) => (
-              /* <Box > */
               <CourseCard course={course} key={`course-index-${i}`} />
-              /* </Box> */
             ))}
           </SimpleGrid>
         </TabPanel>
         <TabPanel>
           <SimpleGrid templateColumns="repeat(4, 1fr)" gap={6}>
             {newCourses.map((course, i) => (
-              /* <Box > */
               <CourseCard course={course} key={`course-index-${i}`} />
-              /* </Box> */
             ))}
           </SimpleGrid>
         </TabPanel>
@@ -94,6 +88,40 @@ const courses = [
     rating: 5,
     thumbnail: "./course_thumbnails/course3.jpg",
     tags: ["popular", "new"],
+  },
+  {
+    title: "Become a Certified Web Developer: HTML, CSS and JavaScript",
+    type: "development",
+    duration: "16",
+    author: "Chinmoy and Alex",
+    fees: "50",
+    cashback: "20",
+    rating: 3,
+    thumbnail: "./course_thumbnails/course4.jpg",
+    tags: [],
+  },
+
+  {
+    title: "Become a Certified Web Developer: HTML, CSS and JavaScript",
+    type: "development",
+    duration: "16",
+    author: "Chinmoy and Alex",
+    fees: "50",
+    cashback: "20",
+    rating: 3,
+    thumbnail: "./course_thumbnails/course4.jpg",
+    tags: [],
+  },
+  {
+    title: "Become a Certified Web Developer: HTML, CSS and JavaScript",
+    type: "development",
+    duration: "16",
+    author: "Chinmoy and Alex",
+    fees: "50",
+    cashback: "20",
+    rating: 3,
+    thumbnail: "./course_thumbnails/course4.jpg",
+    tags: [],
   },
   {
     title: "Become a Certified Web Developer: HTML, CSS and JavaScript",

@@ -36,6 +36,7 @@ export default function CourseCard({ course }) {
       <CardBody p={0}>
         <Box position="relative">
           <Text
+            fontSize="sm"
             position="absolute"
             top="2"
             left="2"
