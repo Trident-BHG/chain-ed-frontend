@@ -14,13 +14,15 @@ import {
 
 import HeroSection from "@/app/components/HeroSection";
 import CourseListing from "@/app/components/CourseListing";
+import StudentDashboard from "./components/StudentDashboard";
 
 export default function Home() {
   return (
     <Container as="main" maxW={"7xl"}>
       {/* <main className="flex min-h-screen flex-col items-center justify-between p-24"> */}
-      <HeroSection />
-      <CourseListing />
+      {/* <HeroSection />
+      <CourseListing /> */}
+      <StudentDashboard/>
       {/* </main> */}
     </Container>
   );

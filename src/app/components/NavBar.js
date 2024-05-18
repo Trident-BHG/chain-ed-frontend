@@ -127,6 +127,8 @@ export default function NavBar() {
             
             {account || isWeb3Enabled ? (
             <div><Button variant="outline">
+              <Image src="./wallet.svg" alt="Student Wallet Icon" width={24} height={24} />
+              <pre> </pre>
               {accountBalance} ETH | {account.slice(0,4) + "..." + account.slice(-4)}
               </Button></div>
             ):

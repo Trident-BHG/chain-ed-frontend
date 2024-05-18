@@ -18,135 +18,176 @@ import {
   GridItem,
   Badge,
   HStack,
-  Spacer
+  Spacer,
+  SimpleGrid,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem
 } from "@chakra-ui/react";
 
-import { StarIcon } from "@chakra-ui/icons";
+
+import {MdFilterList} from "react-icons/md";
+
+import { SearchIcon, ArrowUpDownIcon } from "@chakra-ui/icons";
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import { px } from "framer-motion";
+import StudentProgress from "../StudentProgress";
 
 export default function () {
-    const property = {
-        imageUrl: './student_img.png',
-        imageAlt: 'Rear view of modern home with pool',
-        beds: 3,
-        baths: 2,
-        title: 'Modern home in city center in the heart of historic Los Angeles',
-        formattedPrice: '$1,900.00',
-        reviewCount: 34,
-        rating: 4,
-      }
   return (
     <Container maxWidth="100%" borderTop="1px" borderColor="gray.100" pt="8">
-      <Container maxWidth="100%">
-        <VStack>
-            <Box border="1px solid #225CF3" borderRadius="8px" bg="#ECF1FE" w="100%" h="156px">
-                <Text lineHeight="26px" fontSize="20px" fontWeight="500">Welcome</Text>
-                <Box color="#225CF3" fontWeight="semibold" fontSize="4xl">Mayank Chhipa</Box>
-                <Box position={"relative"} overflow={"hidden"} align="right" top="-120px" left="85.55px">
-                    <Image
-                     alt="Student Image"
-                     fit="contain"
-                     w="241px"
-                     h="222px"
-                     src={"./student_img.png"}
-                    />
+        <VStack spacing={8}>
+            <Stack
+            py={{ base: 2, md: 8 }}
+            direction={{ base: "column" }}
+            w="100%"
+            border="1px solid #225CF3" borderRadius="8px" bg="#ECF1FE" h="156px"
+            overflow="hidden"
+            >
+                <Box marginLeft="40px" marginTop="10px">
+                    <Text lineHeight="26px" fontSize="20px" fontWeight="500" >Welcome</Text>
+                    <Box color="#225CF3" fontWeight="semibold" fontSize="4xl" >Mayank Chhipa</Box>
                 </Box>
-            </Box>
+
+                <Image
+                        alt="Student Image"
+                        borderRadius="16px"
+                        w="241px" h="222px"
+                        src={"./student_img.png"}
+                        position="relative"
+                        top="-40px" left="780px"
+                    />
+                    <Image
+                        alt="Student Image"
+                        borderRadius="16px"
+                        w="241px" h="250px"
+                        src={"./student_img.png"}
+                        position="relative"
+                        top="-305px" left="885px"
+                        boxShadow="dark-lg"
+                    />
+                    <Image
+                        alt="Student Image"
+                        borderRadius="16px"
+                        w="241px" h="222px"
+                        src={"./student_img.png"}
+                        position="relative"
+                        top="-420px" left="1030px"
+                        boxShadow="dark-lg"
+                    />
+
+              
+                
+            </Stack>
+
             <Grid templateColumns='repeat(4, 1fr)' gap={6} w="100%">
-                <GridItem w='100%' h='140' bg='#ECF1FE' border="1px solid #225CF3" borderRadius="8px">
+                <GridItem w='100%' h='140' bg='#FDF6DD' border="1px solid #F3C522" borderRadius="8px">
+                    <HStack h="72px" p={15}>
+                        <Box w="50%" >
+                            <img src="./courses.svg"/>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Text fontSize ={"24px"} fontWeight={"600"}>24</Text>
+                        </Box>
+                    </HStack>
+                    <HStack h="72px" p={15}>
+                        <Box w="50%">
+                            <Text fontSize={"14px"} fontWeight={"500"}>TOTAL COURSES</Text>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Box bg="white" p={2}>
+                            <Text fontSize={"2xs"}>+24 over the past days</Text>
+                            </Box>
+                        </Box>
+                    </HStack>
                 </GridItem>
-                <GridItem w='100%' h='140' bg='#ECF1FE' border="1px solid #225CF3" borderRadius="8px">
-                <Box w="100%" mr={"16px"}>
-                        <img src="./loading.svg"/>
-                        <Text align={"right"}>24</Text>
-                    </Box>
-                    <Box w="100%"></Box>
+                <GridItem w='100%' h='140' bg='#D8F2EE' border="1px solid #5CC7B6" borderRadius="8px">
+                <HStack h="72px" p={15}>
+                        <Box w="50%" >
+                            <img src="./loading.svg"/>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Text fontSize ={"24px"} fontWeight={"600"}>24</Text>
+                        </Box>
+                    </HStack>
+                    <HStack h="72px" p={15}>
+                        <Box w="50%">
+                            <Text fontSize={"14px"} fontWeight={"500"}>ONGOING COURSES</Text>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Box bg="white" p={2}>
+                            <Text fontSize={"2xs"}>+2 over the past days</Text>
+                            </Box>
+                        </Box>
+                    </HStack>
                 </GridItem>
-                <GridItem w='100%' h='140' bg='#ECF1FE' border="1px solid #225CF3" borderRadius="8px">
-                <Box w="100%" mr={"16px"}>
-                        <img src="./earnings.svg"/>
-                        <Text align={"right"}>$46</Text>
-                    </Box>
-                    <Box w="100%"></Box>
+                <GridItem w='100%' h='140' bg='#FEE4CC' border="1px solid #FC8B28" borderRadius="8px">
+                <HStack h="72px" p={15}>
+                        <Box w="50%" >
+                            <img src="./cashback.svg"/>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Text fontSize ={"24px"} fontWeight={"600"}>$46</Text>
+                        </Box>
+                    </HStack>
+                    <HStack h="72px" p={15}>
+                        <Box w="50%">
+                            <Text fontSize={"14px"} fontWeight={"500"}>TOTAL CASHBACKS</Text>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Box bg="white" p={2}>
+                            <Text fontSize={"2xs"}>+24 over the past days</Text>
+                            </Box>
+                        </Box>
+                    </HStack>
                 </GridItem>
-                <GridItem w='100%' h='140' bg='#ECF1FE' border="1px solid #225CF3" borderRadius="8px">
-                <Box w="100%" mr={"16px"}>
-                        <img src="./cashback.svg"/>
-                        <Text align={"right"}>$16</Text>
-                    </Box>
-                    <Box w="100%"></Box>
+                <GridItem w='100%' h='140' bg='#CCEBFF' border="1px solid #2CAAFF" borderRadius="8px">
+                <HStack h="72px" p={15}>
+                        <Box w="50%" >
+                            <img src="./earnings.svg"/>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Text fontSize ={"24px"} fontWeight={"600"}>$16</Text>
+                        </Box>
+                    </HStack>
+                    <HStack h="72px" p={15}>
+                        <Box w="50%">
+                            <Text fontSize={"14px"} fontWeight={"500"}>TOTAL EARNINGS CLAIMED</Text>
+                        </Box>
+                        <Box w="50%" align={"right"}>
+                            <Box bg="white" p={2}>
+                            <Text fontSize={"2xs"}>+24 over the past days</Text>
+                            </Box>
+                        </Box>
+                    </HStack>
                 </GridItem>
             </Grid>
-            <Box border="2px" w="100%" h="483px">
-            <Flex >
-            
-            {Array(4).fill('').map((_, i) => (
-                <Box w="2xs">
-                <Box w='2xs' borderWidth='1px' borderRadius='lg' overflow='hidden'>
-                    <Image src={property.imageUrl} alt={property.imageAlt} />
-
-                    <Box p='6'>
-                        <Box display='flex' alignItems='baseline'>
-                            <Badge borderRadius='full' px='2' colorScheme='teal'>
-                                New
-                            </Badge>
-                            <Box
-                                color='gray.500'
-                                fontWeight='semibold'
-                                letterSpacing='wide'
-                                fontSize='xs'
-                                textTransform='uppercase'
-                                ml='2'
-                            >
-                                {property.beds} beds &bull; {property.baths} baths
-                            </Box>
-                        </Box>
-
-                        <Box
-                        mt='1'
-                        fontWeight='semibold'
-                        as='h4'
-                        lineHeight='tight'
-                        noOfLines={1}
-                        >
-                        {property.title}
-                        </Box>
-
-                        <Box>
-                        {property.formattedPrice}
-                            <Box as='span' color='gray.600' fontSize='sm'>
-                                / wk
-                            </Box>
-                        </Box>
-
-                        <Box display='flex' mt='2' alignItems='center'>
-                            {Array(5)
-                                .fill('')
-                                .map((_, i) => (
-                                <StarIcon
-                                    key={i}
-                                    color={i < property.rating ? 'teal.500' : 'gray.300'}
-                                />
-                                ))}
-                            <Box as='span' ml='2' color='gray.600' fontSize='sm'>
-                                {property.reviewCount} reviews
-                            </Box>
-                        </Box>
-                    </Box>
-                </Box>
-                {
-                    i != 0 || i%3==0 ?  "" : <Spacer/>
-                }
-                
-                </Box>
-                ))}
-                
-            </Flex>
+            <Box w="100%" h="483px">
+                <Flex marginBottom={6}>
+                    <Text fontSize={20} fontWeight={500}>Let's Catch-up with our learning</Text>
+                    <Spacer/>
+                    <Button rightIcon={<Icon as={MdFilterList} />} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"}>
+                        Development
+                    </Button>
+                    <Button rightIcon={<ArrowUpDownIcon />} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"}>
+                        Recently Viewed
+                    </Button>
+                    <InputGroup width={335} >
+                        <InputLeftElement pointerEvents='none'>
+                        <SearchIcon color='gray.300' />
+                        </InputLeftElement>
+                        <Input placeholder='Search' size='sm' variant='outline' borderRadius={4} colorScheme="gray"/>
+                    </InputGroup>
+                </Flex>
+                <StudentProgress/>
             </Box>
-        </VStack>
-      </Container>
+            </VStack>
+      
     </Container>
   );
 }
