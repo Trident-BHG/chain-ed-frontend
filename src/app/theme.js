@@ -4,9 +4,15 @@ const components = {
   Button: {
     baseStyle: {
       borderRadius: "4px",
+      "svg path": { fill: "white" },
     },
     defaultProps: {
       size: "md",
+    },
+    variants: {
+      outline: {
+        "svg path": { fill: "brand.500" },
+      },
     },
   },
 };

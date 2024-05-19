@@ -28,7 +28,7 @@ export default function CourseExplorer() {
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        <TabPanel px="0">
           <SimpleGrid templateColumns="repeat(4, 1fr)" gap={6}>
             {courses.map((course, i) => (
               <CourseCard course={course} key={`course-index-${i}`} />

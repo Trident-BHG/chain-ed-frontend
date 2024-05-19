@@ -1,14 +1,10 @@
 import { StarIcon } from "@chakra-ui/icons";
 import {
   Card,
-  CardHeader,
   CardBody,
   CardFooter,
   Stack,
-  Heading,
   Text,
-  Divider,
-  ButtonGroup,
   Button,
   Image,
   Flex,
