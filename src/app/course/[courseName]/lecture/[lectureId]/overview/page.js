@@ -2,6 +2,8 @@ import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import VideoView from "@/app/components/VideoView";
 import Tab from "@/app/components/Tab";
 
+import data from "@/constants/courseCurriculumDetails.json";
+
 export default function LectureOverviewPage() {
   return (
     <div className="grid h-full grid-cols-12">
@@ -41,14 +43,14 @@ export default function LectureOverviewPage() {
               <p className="font-semibold">42 / 78 Completion</p>
             </div>
             <div
-              class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
+              className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
               role="progressbar"
               aria-valuenow="25"
               aria-valuemin="0"
               aria-valuemax="100"
             >
               <div
-                class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-blue-700 text-center text-xs text-white transition duration-500"
+                className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-blue-700 text-center text-xs text-white transition duration-500"
                 style={{ width: "60%" }}
               ></div>
             </div>
@@ -63,14 +65,14 @@ export default function LectureOverviewPage() {
               <p className="font-semibold">9 days left</p>
             </div>
             <div
-              class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
+              className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
               role="progressbar"
               aria-valuenow="25"
               aria-valuemin="0"
               aria-valuemax="100"
             >
               <div
-                class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-yellow-600 text-center text-xs text-white transition duration-500"
+                className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-yellow-600 text-center text-xs text-white transition duration-500"
                 style={{ width: "80%" }}
               ></div>
             </div>
@@ -83,14 +85,14 @@ export default function LectureOverviewPage() {
             <div className="flex w-3/5 flex-col">
               <p className="font-semibold">$10 / $40 earned</p>
               <div
-                class="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
+                className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
                 role="progressbar"
                 aria-valuenow="25"
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
                 <div
-                  class="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-700 text-center text-xs text-white transition duration-500"
+                  className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-700 text-center text-xs text-white transition duration-500"
                   style={{ width: "25%" }}
                 ></div>
               </div>
@@ -105,12 +107,9 @@ export default function LectureOverviewPage() {
           Course Outline
         </div>
         <div className="h-screen">
-          <CurriculumDropdown />
-          <CurriculumDropdown />
-          <CurriculumDropdown />
-          <CurriculumDropdown />
-          <CurriculumDropdown />
-          <CurriculumDropdown />
+          {data.map((section, index) => {
+            return <CurriculumDropdown data={section} index={index} />;
+          })}
         </div>
       </div>
     </div>

@@ -1,0 +1,54 @@
+[
+    {
+        "sectionName": "Getting Started",
+        "sectionInfo": "1 lecture | 2 min | $0.5 cashback",
+        "subsections": [
+            {
+                "subsectionName": "Welcome to the course",
+                "subsectionType": "doc"
+            },
+            {
+                "subsectionName": "What is Nextjs ? Why would you use it ?",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Key features and benefits of Nextjs",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Creating Nextjs app",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Nextjs vs React",
+                "subsectionType": "video"
+            }
+        ]
+    },
+    {
+        "sectionName": "Getting Started",
+        "sectionInfo": "1 lecture | 2 min | $0.5 cashback",
+        "subsections": [
+            {
+                "subsectionName": "Welcome to the course",
+                "subsectionType": "doc"
+            },
+            {
+                "subsectionName": "What is Nextjs ? Why would you use it ?",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Key features and benefits of Nextjs",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Creating Nextjs app",
+                "subsectionType": "video"
+            },
+            {
+                "subsectionName": "Nextjs vs React",
+                "subsectionType": "video"
+            }
+        ]
+    }
+]
