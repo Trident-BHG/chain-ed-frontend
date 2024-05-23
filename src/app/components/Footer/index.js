@@ -27,7 +27,7 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 export default function Footer() {
   return (
     <Box as="footer" p="6" bgColor={"brand.500"}>
-      <Container as="main" maxW={"7xl"} my={8}>
+      <Container as="footer" maxW={"7xl"} my={8}>
         <HStack>
           <Image
             color="white"

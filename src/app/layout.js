@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { Providers } from "@/app/providers";
 import localFont from "next/font/local";
+import { Box } from "@chakra-ui/react";
 
 import Footer from "@/app/components/Footer";
 import NavBar from "@/app/components/NavBar";
@@ -26,7 +27,9 @@ export default function RootLayout({ children }) {
       <body>
         <Providers>
           <NavBar />
-          {children}
+          <Box as="main" sx={{ minHeight: "calc(100vh - 64px - 248px)" }}>
+            {children}
+          </Box>
           <Footer />
         </Providers>
       </body>

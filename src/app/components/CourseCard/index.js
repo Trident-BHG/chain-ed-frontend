@@ -1,4 +1,3 @@
-import { StarIcon } from "@chakra-ui/icons";
 import {
   Card,
   CardBody,
@@ -15,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
+import StarRatings from "@/app/components/StarRatings";
 
 export default function CourseCard({ course }) {
   const {
@@ -86,11 +86,3 @@ export default function CourseCard({ course }) {
     </Card>
   );
 }
-
-const StarRatings = ({ rating, color }) => {
-  console.log({ rating, color });
-  const stars = [...Array(rating).keys()];
-  return stars.map((item) => (
-    <Icon key={`ratings-${item}`} as={StarIcon} color={color} />
-  ));
-};
