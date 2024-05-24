@@ -36,7 +36,7 @@ import { SearchIcon, ArrowUpDownIcon } from "@chakra-ui/icons";
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import { px } from "framer-motion";
-import StudentProgress from "../StudentProgress";
+import StudentProgress from "../components/StudentProgress";
 
 export default function () {
   return (
@@ -171,12 +171,26 @@ export default function () {
                 <Flex marginBottom={6}>
                     <Text fontSize={20} fontWeight={500}>Let's Catch-up with our learning</Text>
                     <Spacer/>
-                    <Button rightIcon={<Icon as={MdFilterList} />} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"}>
-                        Development
-                    </Button>
-                    <Button rightIcon={<ArrowUpDownIcon />} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"}>
-                        Recently Viewed
-                    </Button>
+                    <Menu>
+                        <MenuButton as={Button} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"} rightIcon={<Icon as={MdFilterList} />}>
+                            Development
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>Development</MenuItem>
+                            <MenuItem>UI/UX</MenuItem>
+                            <MenuItem>Marketing</MenuItem>
+                        </MenuList>
+                    </Menu>
+                    <Menu>
+                        <MenuButton as={Button} colorScheme='gray' fontWeight={500} variant='outline' size="sm" marginRight={"16px"} rightIcon={<ArrowUpDownIcon />}>
+                            Recently Viewed
+                        </MenuButton>
+                        <MenuList>
+                            <MenuItem>Recently Viewed</MenuItem>
+                            <MenuItem>Most Watched</MenuItem>
+                            <MenuItem>Least Watched</MenuItem>
+                        </MenuList>
+                    </Menu>
                     <InputGroup width={335} >
                         <InputLeftElement pointerEvents='none'>
                         <SearchIcon color='gray.300' />

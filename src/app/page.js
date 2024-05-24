@@ -14,7 +14,6 @@ import {
 
 import HeroSection from "@/app/components/HeroSection";
 import CourseListing from "@/app/components/CourseListing";
-import StudentDashboard from "./components/StudentDashboard";
 
 export default function Home() {
   return (
@@ -22,7 +21,6 @@ export default function Home() {
       {/* <main className="flex min-h-screen flex-col items-center justify-between p-24"> */}
       <HeroSection />
       <CourseListing />
-      {/* <StudentDashboard/> */}
       {/* </main> */}
     </Container>
   );
