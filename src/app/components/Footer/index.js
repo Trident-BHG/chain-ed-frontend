@@ -62,45 +62,45 @@ export default function Footer() {
             </Box>
           </HStack>
 
-          <Box>
-            <Button
-              variant="outline"
-              size={"lg"}
-              fontWeight={"regular"}
-              px={6}
-              rightIcon={<ArrowRight />}
-              color={"white"}
-              mr="10"
-              sx={{
-                "svg path": { fill: "white" },
-              }}
-              _hover={{
-                backgroundColor: "brand.600",
-                borderColor: "gray.400",
-              }}
-            >
-              Connect wallet
-            </Button>
+          {/* <Box> */}
+          {/*   <Button */}
+          {/*     variant="outline" */}
+          {/*     size={"lg"} */}
+          {/*     fontWeight={"regular"} */}
+          {/*     px={6} */}
+          {/*     rightIcon={<ArrowRight />} */}
+          {/*     color={"white"} */}
+          {/*     mr="10" */}
+          {/*     sx={{ */}
+          {/*       "svg path": { fill: "white" }, */}
+          {/*     }} */}
+          {/*     _hover={{ */}
+          {/*       backgroundColor: "brand.600", */}
+          {/*       borderColor: "gray.400", */}
+          {/*     }} */}
+          {/*   > */}
+          {/*     Connect wallet */}
+          {/*   </Button> */}
 
-            <Button
-              variant="solid"
-              bgColor="white"
-              size={"lg"}
-              fontWeight={"regular"}
-              px={6}
-              rightIcon={<ArrowRight />}
-              color="brand.500"
-              sx={{
-                "svg path": { fill: "brand.500" },
-              }}
-              _hover={{
-                /* color: "gray.100", */
-                backgroundColor: "gray.100",
-              }}
-            >
-              Explore Course
-            </Button>
-          </Box>
+          {/*   <Button */}
+          {/*     variant="solid" */}
+          {/*     bgColor="white" */}
+          {/*     size={"lg"} */}
+          {/*     fontWeight={"regular"} */}
+          {/*     px={6} */}
+          {/*     rightIcon={<ArrowRight />} */}
+          {/*     color="brand.500" */}
+          {/*     sx={{ */}
+          {/*       "svg path": { fill: "brand.500" }, */}
+          {/*     }} */}
+          {/*     _hover={{ */}
+          {/*       /\* color: "gray.100", *\/ */}
+          {/*       backgroundColor: "gray.100", */}
+          {/*     }} */}
+          {/*   > */}
+          {/*     Explore Course */}
+          {/*   </Button> */}
+          {/* </Box> */}
         </HStack>
         <Divider my={6} />
         <HStack>
