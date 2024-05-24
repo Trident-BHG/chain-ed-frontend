@@ -124,28 +124,23 @@ export default function NavBar() {
             </Button> */}
 
             {account || isWeb3Enabled ? (
-              <div>
-                <Button variant="outline">
-                  {accountBalance} ETH |{" "}
-                  {account.slice(0, 4) + "..." + account.slice(-4)}
-                </Button>
-              </div>
-            ) : (
-              <Button
-                variant="outline"
-                rightIcon={<ArrowRight />}
-                onClick={async () => {
-                  console.log(await enableWeb3());
-                  console.log(isWeb3Enabled);
-                  if (typeof window !== "undefined") {
-                    window.localStorage.setItem("Connected", "Injected");
-                  }
-                }}
-                disabled={isWeb3EnableLoading}
-              >
-                Connect Wallet
-              </Button>
-            )}
+            <div><Button variant="outline">
+              <Image src="./wallet.svg" alt="Student Wallet Icon" width={24} height={24} />
+              <pre> </pre>
+              {accountBalance} ETH | {account.slice(0,4) + "..." + account.slice(-4)}
+              </Button></div>
+            ):
+            <Button variant="outline" rightIcon={<ArrowRight />} onClick={async () => {
+            console.log(await enableWeb3());
+            console.log(isWeb3Enabled);
+            if (typeof window !== "undefined") {
+              window.localStorage.setItem("Connected", "Injected");
+            }
+          }}
+          disabled={isWeb3EnableLoading}>
+              Connect Wallet
+            </Button>
+          }
 
             {/* <div >
             <ConnectButton moralisAuth={false} class="connect-wallet-button"/>
