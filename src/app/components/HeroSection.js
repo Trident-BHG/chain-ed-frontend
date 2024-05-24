@@ -33,7 +33,7 @@ export default function HeroSection() {
             fontSize={{ base: "3xl", sm: "4xl", lg: "6xl" }}
           >
             <Text>
-              <Text as="span" color={"brand.400"}>
+              <Text as="span" color={"brand.500"}>
                 Get paid
               </Text>{" "}
               for

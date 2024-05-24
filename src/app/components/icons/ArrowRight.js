@@ -1,8 +1,8 @@
 import { Icon, createIcon } from "@chakra-ui/react";
 
-export default function ArrowRight({ color = "#225CF3" }) {
+export default function ArrowRight({ color = "#225CF3", ...rest }) {
   return (
-    <Icon viewBox="0 0 25 24" fill="none">
+    <Icon viewBox="0 0 25 24" fill="none" {...rest}>
       <path
         d="M14.9758 18.82C14.7858 18.82 14.5958 18.75 14.4458 18.6C14.1558 18.31 14.1558 17.83 14.4458 17.54L19.9858 12L14.4458 6.46C14.1558 6.17 14.1558 5.69 14.4458 5.4C14.7358 5.11 15.2158 5.11 15.5058 5.4L21.5758 11.47C21.8658 11.76 21.8658 12.24 21.5758 12.53L15.5058 18.6C15.3558 18.75 15.1658 18.82 14.9758 18.82Z"
         fill={color}

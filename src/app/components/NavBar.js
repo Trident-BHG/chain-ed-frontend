@@ -23,7 +23,7 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 import { ConnectButton } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
 import { useEffect, useState } from "react";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 
 const Links = ["Dashboard", "Projects", "Team"];
 
@@ -45,7 +45,6 @@ const NavLink = (props) => {
   );
 };
 
-
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -55,7 +54,7 @@ export default function NavBar() {
     isWeb3Enabled,
     Moralis,
     deactivateWeb3,
-    provider
+    provider,
   } = useMoralis();
 
   var [accountBalance, setAccountBalance] = useState(0);
@@ -73,7 +72,7 @@ export default function NavBar() {
       enableWeb3();
     }
   }, [isWeb3Enabled]);
-  
+
   useEffect(() => {
     Moralis.onAccountChanged((account) => {
       if (account == null) {
@@ -84,18 +83,17 @@ export default function NavBar() {
     });
   }, []);
 
-  async function updateAccountBalance(){
+  async function updateAccountBalance() {
     accountBalance = await window.ethereum.request({
-      "method":"eth_getBalance",
-      "params":[
-        account.toString()
-      ]
+      method: "eth_getBalance",
+      params: [account.toString()],
     });
     const accountBalanceInt = parseInt(accountBalance);
     console.log(accountBalanceInt);
-    setAccountBalance((ethers.utils.formatEther(accountBalanceInt.toString())).slice(0,6));
+    setAccountBalance(
+      ethers.utils.formatEther(accountBalanceInt.toString()).slice(0, 6),
+    );
   }
-  
 
   return (
     <>
@@ -124,7 +122,7 @@ export default function NavBar() {
             {/* <Button mr={4} rightIcon={<ArrowRight color={"white"} />}>
               Explore Courses
             </Button> */}
-            
+
             {account || isWeb3Enabled ? (
             <div><Button variant="outline">
               <Image src="./wallet.svg" alt="Student Wallet Icon" width={24} height={24} />
@@ -144,10 +142,10 @@ export default function NavBar() {
             </Button>
           }
 
-           {/* <div >
+            {/* <div >
             <ConnectButton moralisAuth={false} class="connect-wallet-button"/>
            </div> */}
-            
+
             {/* <Menu> */}
             {/*   <MenuButton */}
             {/*     as={Button} */}
