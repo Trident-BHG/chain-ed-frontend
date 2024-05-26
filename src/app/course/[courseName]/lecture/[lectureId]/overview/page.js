@@ -1,3 +1,5 @@
+"use client";
+
 import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import VideoView from "@/app/components/VideoView";
 import Tab from "@/app/components/Tab";
