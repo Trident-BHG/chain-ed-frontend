@@ -2,15 +2,15 @@ const courseDetails = [{
     id: 1,
     title: "Javascript for Beginners",
     type: "development",
-    duration: "16",
-    author: "Mayank",
+    duration: "15 days",
+    author: "Mayank Chhipa",
     fees: "30",
     cashback: "10",
-    rating: 5,
+    rating: 4,
     thumbnail: "./course_thumbnails/course2.jpg",
     tags: ["popular", "new"],
     details: {
-      noOfEnrolledStudents: 218934,
+      noOfEnrolledStudents: 100,
       sections: [
         {
           name: "Introduction to Javascript",
@@ -19,28 +19,29 @@ const courseDetails = [{
               name: "Course Intro",
               content: {
                 type: "text",
-                duration: "4 pages",
+                duration: 4,
               },
             },
             {
               name: "Hello World in Javacript",
               content: {
                 type: "video",
-                duration: "02.00m",
+                duration: 2.00,
               },
             },
             {
               name: "Where to put Javascipt",
               content: {
                 type: "video",
-                duration: "05.00m",
+                duration: 5.00,
+                cashback:2.5
               },
             },
             {
               name: "Chapter task",
               content: {
                 type: "quiz",
-                cashback: "2.5",
+                cashback: 1.5,
               },
             },
           ],
@@ -52,28 +53,28 @@ const courseDetails = [{
               name: "Course Intro",
               content: {
                 type: "text",
-                duration: "4 pages",
+                duration: 4,
               },
             },
             {
               name: "Hello World in Javacript",
               content: {
                 type: "video",
-                duration: "2",
+                duration: 2,
               },
             },
             {
               name: "Where to put Javascipt",
               content: {
                 type: "video",
-                duration: "5",
+                duration: 5,
               },
             },
             {
               name: "Chapter task",
               content: {
                 type: "quiz",
-                cashback: "2.5",
+                cashback: 2.5,
               },
             },
           ],
@@ -85,28 +86,28 @@ const courseDetails = [{
               name: "Course Intro",
               content: {
                 type: "text",
-                duration: "4 pages",
+                duration: 4,
               },
             },
             {
               name: "Hello World in Javacript",
               content: {
                 type: "video",
-                duration: "2",
+                duration: 2,
               },
             },
             {
               name: "Where to put Javascipt",
               content: {
                 type: "video",
-                duration: "5",
+                duration: 5,
               },
             },
             {
               name: "Chapter task",
               content: {
                 type: "quiz",
-                cashback: "2.5",
+                cashback: 2.5,
               },
             },
           ],

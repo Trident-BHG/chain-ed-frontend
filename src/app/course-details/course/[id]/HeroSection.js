@@ -20,10 +20,8 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 import StarRatings from "@/app/components/StarRatings";
 
 export default function HeroSection({ course, ...rest }) {
-  const { duration, author, details } = course || {};
+  const { duration, author, details, rating } = course || {};
   const { noOfEnrolledStudents } = details || {};
-
-  const rating = 5;
 
   return (
     <HStack
@@ -56,13 +54,13 @@ export default function HeroSection({ course, ...rest }) {
           <Text>
             Duration:{" "}
             <Text as="span" color="black" fontWeight="500" ml={4}>
-              16 weeks
+              {duration}
             </Text>
           </Text>
           <Text>
             By:
             <Text as="span" color="black" fontWeight="500" ml={4}>
-              Wisdom Umanah
+              {author}
             </Text>
           </Text>
           <Text display="inline-flex" alignItems="center">
@@ -87,7 +85,7 @@ export default function HeroSection({ course, ...rest }) {
           >
             Enroll Now
           </Button>
-          <Text ml={4}>218,934 enrolled and earn already</Text>
+          <Text ml={4}>{details.noOfEnrolledStudents} students enrolled and earn already</Text>
         </HStack>
       </VStack>
     </HStack>

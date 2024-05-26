@@ -135,6 +135,10 @@ export default function NavBar() {
             console.log(isWeb3Enabled);
             if (typeof window !== "undefined") {
               window.localStorage.setItem("Connected", "Injected");
+              window.scrollTo({
+                top: 680,
+                behavior:"smooth"
+              });
             }
           }}
           disabled={isWeb3EnableLoading}>

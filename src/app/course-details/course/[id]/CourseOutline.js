@@ -35,6 +35,18 @@ export default function CourseOutline(props) {
   const { details } = course || {};
   const { sections } = details || {};
 
+  let numberOfSections = sections.length;
+  let lectures = 0; 
+  let totalDuration = 0;
+  for(let i=0;i<numberOfSections;i++){
+   let numberOfSubsections = (sections[i].subSections).length;
+    lectures = lectures + numberOfSubsections;
+    for(let j=0;j<numberOfSubsections;j++){
+      totalDuration = totalDuration + (sections[i].subSections[j].content.duration || 0);
+    }
+  }
+
+
   return (
     <Box borderTop="1px" borderColor="gray.50" p={4} pl="0" {...rest}>
       <Heading as="h2" size="md">
@@ -48,19 +60,19 @@ export default function CourseOutline(props) {
         mt={4}
       >
         <ListItem display="inline-flex" alignItems="center">
-          14 sections
+          {sections.length} sections
         </ListItem>
         <ListItem display="inline-flex" alignItems="center">
           <ListIcon as={CircleIcon} boxSize={2} ml={2} />
-          72 lectures
+          {lectures} lectures
         </ListItem>
         <ListItem display="inline-flex" alignItems="center">
           <ListIcon as={CircleIcon} boxSize={2} ml={2} />
-          7h 49m total length{" "}
+          {parseInt(totalDuration / 60)}h {totalDuration%60}m
         </ListItem>
         <ListItem display="inline-flex" alignItems="center">
           <ListIcon as={CircleIcon} boxSize={2} ml={2} />
-          $20 cashback
+          ${course.cashback} cashback
         </ListItem>
       </List>
 
@@ -73,6 +85,15 @@ export default function CourseOutline(props) {
         mt={2}
       >
         {sections.map(({ name, subSections }, i) => {
+          let sectionCashback = 0;
+          let sectionDuration = 0;
+          for(let j=0;j<subSections.length;j++){
+            sectionCashback = sectionCashback + (subSections[j].content.cashback || 0);
+          }
+          for(let j=0;j<subSections.length;j++){
+            sectionDuration = sectionDuration + (subSections[j].content.duration || 0);
+          }
+
           return (
             <AccordionItem
               key={i}
@@ -88,11 +109,11 @@ export default function CourseOutline(props) {
                   <Spacer />
 
                   <Box fontSize="xs" mr={2} textAlign="right">
-                    <Text as="span">1 lectures</Text>
+                    <Text as="span">{subSections.length} lectures</Text>
                     <Icon as={CircleIcon} boxSize={2} mx={2} />
-                    <Text as="span">49m total length</Text>
+                    <Text as="span">{sectionDuration}m total length</Text>
                     <Icon as={CircleIcon} boxSize={2} mx={2} />
-                    <Text as="span">$0.5 cashback</Text>
+                    <Text as="span">${sectionCashback} cashback</Text>
                   </Box>
                 </Center>
                 <AccordionIcon />
@@ -127,7 +148,7 @@ const CourseSubSections = ({ subSections }) => {
             <IconElement type={content.type} />
             <Text ml={4}>{name}</Text>
           </Center>
-          <Text fontSize="xs">{content.duration}</Text>
+          <Text fontSize="xs">{content.duration ? content.duration + "m" : "-"}</Text>
         </Flex>
       ))}
     </AccordionPanel>
