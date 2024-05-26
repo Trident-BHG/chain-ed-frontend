@@ -1,10 +1,109 @@
+"use client";
+
 import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import VideoView from "@/app/components/VideoView";
 import Tab from "@/app/components/Tab";
 
 import data from "@/constants/courseCurriculumDetails.json";
 
+import { ethers } from "ethers";
+import paymentAbi from "@/constants/paymentabi.json";
+import { useState, useEffect } from "react";
+
 export default function LectureOverviewPage() {
+  const [provider, setProvider] = useState(null);
+  const [amountClaimable, setAmountClaimable] = useState(0);
+
+  async function supplyTokens() {
+    const LendingContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await LendingContract.supplyTokens(
+      "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    console.log(tx);
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+  }
+
+  async function withdrawTokens() {
+    const LendingContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await LendingContract.withdrawTokens(
+      "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+  }
+
+  async function claimAmount() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.claimPayment(
+      "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      0,
+      "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+      ethers.utils.parseUnits(amountClaimable.toString(), 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+  }
+
+  async function getAmountClaimableByTheUser() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    let tx = await PaymentContract.getAmountClaimableByUser(
+      "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      0,
+    );
+
+    setAmountClaimable(ethers.utils.formatUnits(tx, 6));
+  }
+
+  async function completeCourseSubsection() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.updateClaims(
+      "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      0,
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+  }
+
+  useEffect(() => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    setProvider(provider);
+    getAmountClaimableByTheUser();
+  }, []);
+
   return (
     <div className="grid h-full grid-cols-12">
       <div className="col-span-8 mt-8 flex flex-col">
@@ -83,7 +182,7 @@ export default function LectureOverviewPage() {
           <h1 className="text-gray-400">Earnings</h1>
           <div className="flex justify-between rounded-md bg-green-200 px-4 py-3">
             <div className="flex w-3/5 flex-col">
-              <p className="font-semibold">$10 / $40 earned</p>
+              <p className="font-semibold">$ {amountClaimable} / $50 earned</p>
               <div
                 className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
                 role="progressbar"
@@ -97,10 +196,35 @@ export default function LectureOverviewPage() {
                 ></div>
               </div>
             </div>
-            <div className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700">
+            <div
+              onClick={() => claimAmount()}
+              className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700"
+            >
               Claim Now
             </div>
           </div>
+        </div>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => completeCourseSubsection()}
+        >
+          complete course section
+        </div>
+
+        <div
+          className="cursor-pointer"
+          onClick={() => getAmountClaimableByTheUser()}
+        >
+          get amount claimable by user
+        </div>
+
+        <div className="cursor-pointer" onClick={() => supplyTokens()}>
+          supply tokens
+        </div>
+
+        <div className="cursor-pointer" onClick={() => withdrawTokens()}>
+          withdraw tokens
         </div>
 
         <div className=" border-gray-500 py-5 text-xl font-semibold">

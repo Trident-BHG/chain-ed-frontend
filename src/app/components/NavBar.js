@@ -22,8 +22,9 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import { ConnectButton } from "@web3uikit/web3";
 import { useMoralis } from "react-moralis";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { ethers } from "ethers";
+import UserContext from "@/store/user-context";
 
 const Links = ["Dashboard", "Projects", "Team"];
 
@@ -46,6 +47,7 @@ const NavLink = (props) => {
 };
 
 export default function NavBar() {
+  const userCtx = useContext(UserContext);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     enableWeb3,
@@ -54,7 +56,6 @@ export default function NavBar() {
     isWeb3Enabled,
     Moralis,
     deactivateWeb3,
-    provider,
   } = useMoralis();
 
   var [accountBalance, setAccountBalance] = useState(0);
@@ -124,23 +125,38 @@ export default function NavBar() {
             </Button> */}
 
             {account || isWeb3Enabled ? (
-            <div><Button variant="outline">
-              <Image src="./wallet.svg" alt="Student Wallet Icon" width={24} height={24} />
-              <pre> </pre>
-              {accountBalance} ETH | {account.slice(0,4) + "..." + account.slice(-4)}
-              </Button></div>
-            ):
-            <Button variant="outline" rightIcon={<ArrowRight />} onClick={async () => {
-            console.log(await enableWeb3());
-            console.log(isWeb3Enabled);
-            if (typeof window !== "undefined") {
-              window.localStorage.setItem("Connected", "Injected");
-            }
-          }}
-          disabled={isWeb3EnableLoading}>
-              Connect Wallet
-            </Button>
-          }
+              <div>
+                <Button variant="outline">
+                  <Image
+                    src="./wallet.svg"
+                    alt="Student Wallet Icon"
+                    width={24}
+                    height={24}
+                  />
+                  <pre> </pre>
+                  {accountBalance} ETH |{" "}
+                  {account.slice(0, 4) + "..." + account.slice(-4)}
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                rightIcon={<ArrowRight />}
+                onClick={async () => {
+                  console.log(await enableWeb3());
+                  console.log(isWeb3Enabled);
+                  userCtx.setProvider(
+                    new ethers.providers.Web3Provider(window.ethereum),
+                  );
+                  if (typeof window !== "undefined") {
+                    window.localStorage.setItem("Connected", "Injected");
+                  }
+                }}
+                disabled={isWeb3EnableLoading}
+              >
+                Connect Wallet
+              </Button>
+            )}
 
             {/* <div >
             <ConnectButton moralisAuth={false} class="connect-wallet-button"/>
