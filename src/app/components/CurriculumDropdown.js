@@ -29,7 +29,7 @@ export default function CurriculumDropdown({ data, index }) {
               />
             </svg>
             <div>
-              <h3 className="text-lg font-semibold">{data.sectionName}</h3>
+              <h3 className="text-lg font-semibold">{data.name}</h3>
               <p className="text-sm">{data.sectionInfo}</p>
             </div>
           </div>
@@ -50,17 +50,17 @@ export default function CurriculumDropdown({ data, index }) {
       </div>
       {isOpen && (
         <>
-          {data.subsections.map((subsection) => {
+          {data.subSections.map((subsection) => {
             return (
               <div className="mx-5 flex items-center justify-between p-2 ">
                 <div className="flex items-center gap-5">
-                  {subsection.subsectionType === "doc" ? (
+                  {subsection.content.type === "doc" ? (
                     <DocIcon />
                   ) : (
                     <VideoIcon />
                   )}
                   <h3 className="text-lg font-medium text-gray-600">
-                    {subsection.subsectionName}
+                    {subsection.name}
                   </h3>
                 </div>
 

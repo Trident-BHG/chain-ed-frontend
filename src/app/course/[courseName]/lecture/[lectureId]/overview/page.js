@@ -4,7 +4,8 @@ import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import VideoView from "@/app/components/VideoView";
 import Tab from "@/app/components/Tab";
 
-import data from "@/constants/courseCurriculumDetails.json";
+import { courseDetails as data } from "@/constants";
+
 
 export default function LectureOverviewPage() {
   return (
@@ -109,7 +110,7 @@ export default function LectureOverviewPage() {
           Course Outline
         </div>
         <div className="h-screen">
-          {data.map((section, index) => {
+          {data[0]["details"]["sections"].map((section, index) => {
             return <CurriculumDropdown data={section} index={index} />;
           })}
         </div>
