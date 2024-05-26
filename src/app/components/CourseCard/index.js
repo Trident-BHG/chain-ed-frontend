@@ -15,9 +15,12 @@ import {
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import StarRatings from "@/app/components/StarRatings";
+import { useRouter } from 'next/navigation';
 
 export default function CourseCard({ course }) {
+  const router = useRouter();
   const {
+    id,
     title,
     type,
     duration,
@@ -78,7 +81,8 @@ export default function CourseCard({ course }) {
         <Button
           width="100%"
           variant="solid"
-          rightIcon={<ArrowRight color={"white"} />}
+          rightIcon={<ArrowRight color={"white"}
+          onClick = {() => router.push('/course-details/course/' + id)} />}
         >
           Enroll Now
         </Button>
