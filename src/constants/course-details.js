@@ -1,4 +1,5 @@
-const courseDetails = [{
+const courseDetails = [
+  {
     id: 1,
     title: "Javascript for Beginners",
     type: "development",
@@ -7,7 +8,7 @@ const courseDetails = [{
     fees: "30",
     cashback: "10",
     rating: 4,
-    thumbnail: "./course_thumbnails/course2.jpg",
+    thumbnail: "/course_thumbnails/course2.jpg",
     tags: ["popular", "new"],
     details: {
       noOfEnrolledStudents: 100,
@@ -26,15 +27,15 @@ const courseDetails = [{
               name: "Hello World in Javacript",
               content: {
                 type: "video",
-                duration: 2.00,
+                duration: 2.0,
               },
             },
             {
               name: "Where to put Javascipt",
               content: {
                 type: "video",
-                duration: 5.00,
-                cashback:2.5
+                duration: 5.0,
+                cashback: 2.5,
               },
             },
             {
@@ -114,8 +115,9 @@ const courseDetails = [{
         },
       ],
     },
-  }];
+  },
+];
 
-  module.exports = {
-    courseDetails
-  }
+module.exports = {
+  courseDetails,
+};

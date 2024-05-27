@@ -1,3 +1,5 @@
+"use cleint";
+
 import Image from "next/image";
 import {
   Card,
@@ -85,7 +87,9 @@ export default function HeroSection({ course, ...rest }) {
           >
             Enroll Now
           </Button>
-          <Text ml={4}>{details.noOfEnrolledStudents} students enrolled and earn already</Text>
+          <Text ml={4}>
+            {details.noOfEnrolledStudents} students enrolled and earn already
+          </Text>
         </HStack>
       </VStack>
     </HStack>

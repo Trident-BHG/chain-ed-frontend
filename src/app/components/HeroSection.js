@@ -83,7 +83,7 @@ export default function HeroSection() {
               align="center"
               w={"100%"}
               h={"100%"}
-              src={"./hero_img.png"}
+              src={"/hero_img.png"}
             />
           </Box>
         </Flex>
