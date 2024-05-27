@@ -11,7 +11,7 @@ import {
 
 const answerOptionNo = ["A", "B", "C", "D"];
 
-export default function QuizAnswerPanel({ answerOptions, selectedAnswerIdx }) {
+export default function QuizAnswerPanel({ answerOptions, selectedAnswerIdx, changeSelectedAnswer }) {
   return (
     <Box
       borderRadius="2px"
@@ -38,6 +38,7 @@ export default function QuizAnswerPanel({ answerOptions, selectedAnswerIdx }) {
             borderRadius="6px"
             borderColor={isSelected ? "brand.500" : "gray.200"}
             fontWeight="600"
+            onClick={async ()=>{updateSelectedAnswer(i)}}
           >
             <Circle
               bgColor="white"
@@ -56,4 +57,10 @@ export default function QuizAnswerPanel({ answerOptions, selectedAnswerIdx }) {
       })}
     </Box>
   );
+
+  function updateSelectedAnswer(i){
+    selectedAnswerIdx = i;
+    changeSelectedAnswer(selectedAnswerIdx);
+
+  }
 }

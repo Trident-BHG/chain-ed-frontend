@@ -15,13 +15,14 @@ export default function QuizQuestionPanel({
   question,
   currentQuestionIdx,
   attemptedQuestionIndices,
+  totalQuestions
 }) {
   const { questionText } = question || {};
   return (
     <>
       <Flex flexDirection="column" width="100%">
         <QuestionTopBar
-          questionCount={15}
+          questionCount={totalQuestions}
           currentQuestionIdx={currentQuestionIdx}
           attemptedQuestionIndices={attemptedQuestionIndices}
         />
