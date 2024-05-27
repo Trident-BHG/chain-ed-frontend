@@ -81,8 +81,8 @@ export default function CourseCard({ course }) {
         <Button
           width="100%"
           variant="solid"
-          rightIcon={<ArrowRight color={"white"}
-          onClick = {() => router.push('/course-details/course/' + id)} />}
+          rightIcon={<ArrowRight color={"white"}/>}
+          onClick = {() => router.push('/course-details/course/' + id) }
         >
           Enroll Now
         </Button>

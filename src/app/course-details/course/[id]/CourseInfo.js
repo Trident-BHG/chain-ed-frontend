@@ -83,7 +83,7 @@ export default function CourseInfo(props) {
             You will need to create a wallet so you can withdraw your earnings
           </ListItem>
         </UnorderedList>
-        <Button
+        {/* <Button
           size={"lg"}
           fontWeight={"normal"}
           width="100%"
@@ -91,7 +91,7 @@ export default function CourseInfo(props) {
           rightIcon={<ArrowRight />}
         >
           Enroll Now
-        </Button>
+        </Button> */}
       </Box>
     </VStack>
   );

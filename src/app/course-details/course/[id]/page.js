@@ -26,7 +26,7 @@ export default function CourseDetails({ params}) {
   })[0];
   return (
     <Container as="main" maxW={"7xl"}>
-      <HeroSection mt={12} />
+      <HeroSection mt={12}  course={course}/>
       <Box display="flex" mt={4}>
         <CourseOutline sx={{ flexBasis: "75%" }} course={course} />
         <CourseInfo grow={1} />
