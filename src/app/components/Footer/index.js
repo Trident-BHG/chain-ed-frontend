@@ -29,15 +29,17 @@ export default function Footer() {
     <Box as="footer" p="6" bgColor={"brand.500"}>
       <Container as="footer" maxW={"7xl"} my={8}>
         <HStack>
-          <Image
-            color="white"
-            className="relative"
-            src="/footer_logo.svg"
-            alt="Next.js Logo"
-            width={170}
-            /* height={37} */
-            priority
-          />
+          <Box as={NextLink} href="/" width={170}>
+            <Image
+              color="white"
+              className="relative"
+              src="/footer_logo.svg"
+              alt="Next.js Logo"
+              width="100%"
+              /* height={37} */
+              priority
+            />
+          </Box>
           <HStack
             spacing="10"
             flexDirection="row"

@@ -128,7 +128,7 @@ export default function NavBar() {
               <div>
                 <Button variant="outline">
                   <Image
-                    src="./wallet.svg"
+                    src="/wallet.svg"
                     alt="Student Wallet Icon"
                     width={24}
                     height={24}
