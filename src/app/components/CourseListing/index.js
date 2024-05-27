@@ -25,7 +25,7 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 import CoursExplorer from "@/app/components/CourseExplorer";
 import CourseExplorer from "@/app/components/CourseExplorer";
 
-export default function () {
+export default function LandingPage() {
   return (
     <Container maxWidth="100%" borderTop="1px" borderColor="gray.100" pt="8">
       <VStack>
@@ -36,7 +36,6 @@ export default function () {
           Our courses are tailored in be as easy and possible to digest and
           covers all the necessary knowledge to help your learning process
         </Text>
-        <Text>Filters</Text>
         <CourseExplorer />
       </VStack>
     </Container>
