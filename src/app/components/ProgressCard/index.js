@@ -55,8 +55,10 @@ export default function CourseCard({ course }) {
             <Spacer/>
             <Text fontWeight={500}>$50</Text>
           </Flex>
-          <Progress colorScheme='blue' height="7px" value={20} borderRadius={2} />
+          <Progress colorScheme='blue' height="7px" value={completion} borderRadius={2} />
           <Text fontSize={"2xs"} fontWeight={500}>{completion}% completion</Text>
+          {completion == 100 ? <Button as="a" href="https://testnets.opensea.io/assets/arbitrum-sepolia/0x15571497160a656868b8044d3d3bcb8da6c95490/349" target="_blank">Show Certificate</Button> : ""}
+          
         </Stack>
       </CardBody>
       <CardFooter p="2" style={{ fontWeight: 500 }}>
