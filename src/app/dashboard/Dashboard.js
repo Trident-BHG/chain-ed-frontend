@@ -38,7 +38,13 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 import { px } from "framer-motion";
 import StudentProgress from "../components/StudentProgress";
 
+import { useMoralis } from "react-moralis";
+
+
 export default function () {
+    const {
+        account
+      } = useMoralis();
   return (
     <Container maxWidth="100%" borderTop="1px" borderColor="gray.100" pt="8">
         <VStack spacing={8}>
@@ -51,7 +57,7 @@ export default function () {
             >
                 <Box marginLeft="40px" marginTop="10px">
                     <Text lineHeight="26px" fontSize="20px" fontWeight="500" >Welcome</Text>
-                    <Box color="#225CF3" fontWeight="semibold" fontSize="4xl" >Mayank Chhipa</Box>
+                    <Box color="#225CF3" fontWeight="semibold" fontSize="4xl">{account ? account.slice(0,4) + "..." + account.slice(-4) : ""}</Box>
                 </Box>
 
                 <Image
