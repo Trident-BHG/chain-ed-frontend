@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import StarRatings from "@/app/components/StarRatings";
@@ -32,6 +33,14 @@ export default function HeroSection({ course, ...rest }) {
 
   const [provider, setProvider] = useState(null);
   const [isUserEnrolled, setIsUserEnrolled] = useState(false);
+
+  const rotuer = useRouter();
+
+  function gotoLearningPage() {
+    rotuer.push(
+      "/course/become-a-certified-web-developer-html-css-js/lecture/introduction-to-html-css-javascript/overview",
+    );
+  }
 
   async function enrollTheUser() {
     const Contract = new ethers.Contract(
@@ -139,6 +148,7 @@ export default function HeroSection({ course, ...rest }) {
               variant="solid"
               rightIcon={<ArrowRight color={"white"} />}
               width="xs"
+              onClick={() => gotoLearningPage()}
             >
               Start Learning
             </Button>
