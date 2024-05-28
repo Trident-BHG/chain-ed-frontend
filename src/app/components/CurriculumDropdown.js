@@ -4,7 +4,11 @@ import { useState } from "react";
 import DocIcon from "./icons/Doc";
 import VideoIcon from "./icons/Video";
 
+import { useRouter } from "next/navigation";
+
 export default function CurriculumDropdown({ data, index }) {
+  const router = useRouter();
+
   const [isOpen, setIsOpen] = useState(false);
   return (
     <div key={index}>
@@ -52,7 +56,10 @@ export default function CurriculumDropdown({ data, index }) {
         <>
           {data.subSections.map((subsection) => {
             return (
-              <div className="mx-5 flex items-center justify-between p-2 ">
+              <div
+                className="mx-5 flex cursor-pointer items-center justify-between p-2"
+                onClick={() => router.push(subsection.link)}
+              >
                 <div className="flex items-center gap-5">
                   {subsection.content.type === "doc" ? (
                     <DocIcon />

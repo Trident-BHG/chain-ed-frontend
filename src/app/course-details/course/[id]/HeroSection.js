@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import {
   Card,
@@ -15,13 +17,76 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import { useRouter } from "next/navigation";
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import StarRatings from "@/app/components/StarRatings";
 
+import erc20json from "@/constants/erc20.json";
+import paymentAbi from "@/constants/paymentabi.json";
+
 export default function HeroSection({ course, ...rest }) {
   const { duration, author, details, rating } = course || {};
   const { noOfEnrolledStudents } = details || {};
+
+  const [provider, setProvider] = useState(null);
+  const [isUserEnrolled, setIsUserEnrolled] = useState(false);
+
+  const rotuer = useRouter();
+
+  function gotoLearningPage() {
+    rotuer.push(
+      "/course/become-a-certified-web-developer-html-css-js/lecture/introduction-to-html-css-javascript/overview",
+    );
+  }
+
+  async function enrollTheUser() {
+    const Contract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const ERC20Contract = new ethers.Contract(
+      process.env.USDC_ETH_MAINNET_ADDRESS,
+      erc20json,
+      provider.getSigner(),
+    );
+
+    let tx = await ERC20Contract.approve(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      ethers.utils.parseUnits("200", 6),
+    );
+
+    console.log(tx);
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    tx = await Contract.buyCourse(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+      ethers.utils.parseUnits("50", 6),
+      process.env.USDC_ETH_MAINNET_ADDRESS,
+    );
+
+    receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    // change the status of the button if receipt.status == 1
+    if (receipt.status == 1) {
+      setIsUserEnrolled(true);
+    }
+  }
+
+  useEffect(() => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(provider);
+    } catch (e) {}
+  }, []);
 
   return (
     <HStack
@@ -78,14 +143,28 @@ export default function HeroSection({ course, ...rest }) {
           </Text>
         </HStack>
         <HStack mt={4}>
-          <Button
-            variant="solid"
-            rightIcon={<ArrowRight color={"white"} />}
-            width="xs"
-          >
-            Enroll Now
-          </Button>
-          <Text ml={4}>{details.noOfEnrolledStudents} students enrolled and earn already</Text>
+          {isUserEnrolled ? (
+            <Button
+              variant="solid"
+              rightIcon={<ArrowRight color={"white"} />}
+              width="xs"
+              onClick={() => gotoLearningPage()}
+            >
+              Start Learning
+            </Button>
+          ) : (
+            <Button
+              variant="solid"
+              rightIcon={<ArrowRight color={"white"} />}
+              width="xs"
+              onClick={async () => enrollTheUser()}
+            >
+              Enroll Now
+            </Button>
+          )}
+          <Text ml={4}>
+            {details.noOfEnrolledStudents} students enrolled and earn already
+          </Text>
         </HStack>
       </VStack>
     </HStack>
