@@ -12,7 +12,7 @@ export default function ClockIcon(props) {
       />
       <path
         d="M16.4971 19.7878L17.9954 22.4914"
-        stroke="#fff"
+        stroke="#225CF3"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"

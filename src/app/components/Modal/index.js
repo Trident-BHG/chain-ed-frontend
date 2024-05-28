@@ -18,13 +18,14 @@ export default function Modal({
   title,
   children: modalBody,
   modalFooter,
+  modalCloseButton,
 }) {
   return (
     <ChakraModal onClose={onClose} isOpen={isOpen} isCentered>
       <ModalOverlay />
       <ModalContent>
         {!!title && <ModalHeader>{title}</ModalHeader>}
-        <ModalCloseButton />
+        {modalCloseButton ? <ModalCloseButton /> : null}
         <ModalBody>{modalBody}</ModalBody>
         {!!modalFooter && <ModalFooter>{modalFooter}</ModalFooter>}
       </ModalContent>

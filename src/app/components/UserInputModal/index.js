@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Input,
   Text,
@@ -17,8 +19,16 @@ export default function UserInputModal({
   onClose,
   onOpen,
   children: modalBody,
+  modalAction,
 }) {
-  const modalFooter = <Button>Proceed to Dashboard</Button>;
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+
+  const modalFooter = (
+    <Button onClick={() => modalAction(firstName + " " + lastName)}>
+      Submit
+    </Button>
+  );
 
   return (
     <Modal
@@ -27,14 +37,12 @@ export default function UserInputModal({
       isOpen={isOpen}
       modalFooter={modalFooter}
     >
-      <Text>
-        Before proceeding to your dashboard please provide a few details
-      </Text>
+      <Text>Before proceeding further, please provide a few details</Text>
       <FormControl mt={4}>
         <FormLabel>First name</FormLabel>
-        <Input type="text" />
+        <Input type="text" onChange={(e) => setFirstName(e.target.value)} />
         <FormLabel>Last name</FormLabel>
-        <Input type="text" />
+        <Input type="text" onChange={(e) => setLastName(e.target.value)} />
       </FormControl>
     </Modal>
   );
