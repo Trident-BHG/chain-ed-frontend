@@ -169,6 +169,7 @@ export default function QuizPanel({ quiz }) {
         return;
       }
       // else move to the next section of the course
+      // TODO: Sudhanshu: add your code here for cashback
       router.push(nextSectionLink);
     }
 
@@ -187,6 +188,7 @@ export default function QuizPanel({ quiz }) {
     formData.append("file", cert);
     setIsLoading(true);
     const res = await sendFileToIPFS(formData);
+    // TODO: Mayank - add your code for NFT generation here.
     setIsLoading(false);
     const ipfsTokenURI = "https://ipfs.io/ipfs/" + res.IpfsHash;
     console.log("NFT Generation Completed!!");
