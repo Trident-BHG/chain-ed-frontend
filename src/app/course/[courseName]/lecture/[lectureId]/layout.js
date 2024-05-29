@@ -1,13 +1,79 @@
 "use client";
 
-import CurriculumDropdown from "@/app/components/CurriculumDropdown";
-import VideoView from "@/app/components/VideoView";
-import Tab from "@/app/components/Tab";
+import { ethers } from "ethers";
+import { useState, useEffect } from "react";
 
-// import data from "@/constants/courseCurriculumDetails.json";
+import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import { courseDetails as data } from "@/constants";
 
+import paymentAbi from "@/constants/paymentabi.json";
+
 export default function LectureOverviewPage({ children }) {
+  const [provider, setProvider] = useState(null);
+  const [amountClaimable, setAmountClaimable] = useState(0);
+
+  async function claimAmount() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.claimPayment(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+      process.env.USDC_ETH_MAINNET_ADDRESS,
+      ethers.utils.parseUnits(amountClaimable.toString(), 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    getAmountClaimableByTheUser();
+  }
+
+  async function completeCourseSubsection() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.updateClaims(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    // if receipt.status == 1 , the transaction is complete.
+  }
+
+  async function getAmountClaimableByTheUser() {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    let tx = await PaymentContract.getAmountClaimableByUser(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+    );
+
+    setAmountClaimable(ethers.utils.formatUnits(tx, 6));
+  }
+
+  useEffect(() => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      setProvider(provider);
+      getAmountClaimableByTheUser();
+    } catch (e) {}
+  }, []);
+
   return (
     <div className="grid h-full grid-cols-12">
       {children}
@@ -60,7 +126,7 @@ export default function LectureOverviewPage({ children }) {
           <h1 className="text-gray-400">Earnings</h1>
           <div className="flex justify-between rounded-md bg-green-200 px-4 py-3">
             <div className="flex w-3/5 flex-col">
-              <p className="font-semibold">$10 / $40 earned</p>
+              <p className="font-semibold">$ {amountClaimable} / $40 earned</p>
               <div
                 className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
                 role="progressbar"
@@ -74,7 +140,10 @@ export default function LectureOverviewPage({ children }) {
                 ></div>
               </div>
             </div>
-            <div className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700">
+            <div
+              onClick={() => claimAmount()}
+              className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700"
+            >
               Claim Now
             </div>
           </div>

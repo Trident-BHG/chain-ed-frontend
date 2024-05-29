@@ -5,7 +5,7 @@ const studentProgress = [
       daysLeft: "16",
       author: "Wisdom Umanah",
       earnings: "50",
-      completion: "20",
+      completion: "100",
       thumbnail: "./course_thumbnails/course1.jpg",
       tags: ["all"],
     },
