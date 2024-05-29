@@ -1,6 +1,8 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
 import { useRouter, useParams, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { ethers } from "ethers";
 
 import QuizQuestionPanel from "@/app/components/quiz/QuizQuestionPanel";
 import QuizAnswerPanel from "@/app/components/quiz/QuizAnswerPanel";
@@ -11,10 +13,13 @@ import { createCertificate, downloadFile } from "@/app/lib/canvas/canvas";
 import { sendFileToIPFS } from "@/app/actions/uploadToIPFS";
 import { quizData } from "@/constants/course-quizzes";
 import { courseDetails as data } from "@/constants";
+import paymentAbi from "@/constants/paymentabi.json";
+import AppContext from "@/store/app-context";
 
 const REQUIRED_PERCENTAGE_SCORE = 60;
 
 export default function QuizPanel({ quiz }) {
+  const { setAmountClaimable } = useContext(AppContext);
   const router = useRouter();
   const pathname = usePathname();
   const { lectureId } = useParams() || {};
@@ -170,6 +175,7 @@ export default function QuizPanel({ quiz }) {
       }
       // else move to the next section of the course
       // TODO: Sudhanshu: add your code here for cashback
+      completeCourseSubsection();
       router.push(nextSectionLink);
     }
 
@@ -196,5 +202,43 @@ export default function QuizPanel({ quiz }) {
     console.log({ ipfsTokenURI });
     return ipfsTokenURI;
     /* downloadFile(cert); */
+  }
+
+  async function completeCourseSubsection() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.updateClaims(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+      ethers.utils.parseUnits("20", 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    // if receipt.status == 1 , the transaction is complete.
+    if (receipt.status == 1) {
+      getAmountClaimableByTheUser(provider);
+    }
+  }
+
+  async function getAmountClaimableByTheUser(provider) {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    let tx = await PaymentContract.getAmountClaimableByUser(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+    );
+
+    setAmountClaimable(ethers.utils.formatUnits(tx, 6));
   }
 }

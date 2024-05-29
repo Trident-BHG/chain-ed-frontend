@@ -1,18 +1,71 @@
 "use client";
 
 import { ethers } from "ethers";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "next/navigation";
 
 import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import { courseDetails as data } from "@/constants";
 
 import paymentAbi from "@/constants/paymentabi.json";
+import AppContext from "@/store/app-context";
 
 export default function LectureOverviewPage({ children }) {
+  const { amountClaimable, setAmountClaimable } = useContext(AppContext);
   const { lectureId } = useParams() || {};
   const [provider, setProvider] = useState(null);
-  const [amountClaimable, setAmountClaimable] = useState(0);
+
+  async function supplyTokensOffline() {
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.LOCAL_RPC_ENDPOINT,
+    );
+
+    const signer = new ethers.Wallet(
+      process.env.TEST_USER_PRIVATE_KEY,
+      provider,
+    );
+
+    const LendingContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      signer,
+    );
+
+    const tx = await LendingContract.supplyTokens(
+      process.env.USDC_ETH_MAINNET_ADDRESS,
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    const receipt = await provider.getTransactionReceipt(tx.hash);
+
+    console.log(receipt);
+  }
+
+  async function withdrawTokensOffline() {
+    const provider = new ethers.providers.JsonRpcProvider(
+      process.env.LOCAL_RPC_ENDPOINT,
+    );
+
+    const signer = new ethers.Wallet(
+      process.env.TEST_USER_PRIVATE_KEY,
+      provider,
+    );
+
+    const LendingContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      signer,
+    );
+
+    const tx = await LendingContract.withdrawTokens(
+      process.env.USDC_ETH_MAINNET_ADDRESS,
+      ethers.utils.parseUnits("1", 6),
+    );
+
+    const receipt = await provider.getTransactionReceipt(tx.hash);
+
+    console.log(receipt);
+  }
 
   async function claimAmount() {
     const PaymentContract = new ethers.Contract(
@@ -31,29 +84,10 @@ export default function LectureOverviewPage({ children }) {
     let receipt = await provider.getTransactionReceipt(tx.hash);
     console.log(receipt);
 
-    getAmountClaimableByTheUser();
+    getAmountClaimableByTheUser(provider);
   }
 
-  async function completeCourseSubsection() {
-    const PaymentContract = new ethers.Contract(
-      process.env.PAYMENT_CONTRACT_ADDRESS,
-      paymentAbi,
-      provider.getSigner(),
-    );
-
-    const tx = await PaymentContract.updateClaims(
-      process.env.TEST_USER_ADDRESS,
-      process.env.TEST_COURSE_ID,
-      ethers.utils.parseUnits("1", 6),
-    );
-
-    let receipt = await provider.getTransactionReceipt(tx.hash);
-    console.log(receipt);
-
-    // if receipt.status == 1 , the transaction is complete.
-  }
-
-  async function getAmountClaimableByTheUser() {
+  async function getAmountClaimableByTheUser(provider) {
     const PaymentContract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
       paymentAbi,
@@ -72,7 +106,7 @@ export default function LectureOverviewPage({ children }) {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       setProvider(provider);
-      getAmountClaimableByTheUser();
+      getAmountClaimableByTheUser(provider);
     } catch (e) {}
   }, []);
 
@@ -149,7 +183,7 @@ export default function LectureOverviewPage({ children }) {
           <h1 className="text-gray-400">Earnings</h1>
           <div className="flex justify-between rounded-md bg-green-200 px-4 py-3">
             <div className="flex w-3/5 flex-col">
-              <p className="font-semibold">$ {amountClaimable} / $40 earned</p>
+              <p className="font-semibold">$ {amountClaimable} / $ 50 earned</p>
               <div
                 className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
                 role="progressbar"
@@ -159,7 +193,7 @@ export default function LectureOverviewPage({ children }) {
               >
                 <div
                   className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-green-700 text-center text-xs text-white transition duration-500"
-                  style={{ width: "25%" }}
+                  style={{ width: `${(amountClaimable / 50) * 100}%` }}
                 ></div>
               </div>
             </div>

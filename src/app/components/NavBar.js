@@ -89,10 +89,8 @@ export default function NavBar() {
       method: "eth_getBalance",
       params: [account.toString()],
     });
-    const accountBalanceInt = parseInt(accountBalance);
-    console.log(accountBalanceInt);
     setAccountBalance(
-      ethers.utils.formatEther(accountBalanceInt.toString()).slice(0, 6),
+      ethers.utils.formatUnits(accountBalance.toString(), 18).slice(0, 6),
     );
   }
 
