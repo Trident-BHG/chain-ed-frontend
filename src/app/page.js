@@ -1,4 +1,6 @@
-"use cleint";
+"use client";
+
+import { useRef } from "react";
 
 import {
   Card,
@@ -17,10 +19,18 @@ import HeroSection from "@/app/components/HeroSection";
 import CourseListing from "@/app/components/CourseListing";
 
 export default function Home() {
+  const courseListingRef = useRef(null);
   return (
     <Container as="main" maxW={"7xl"}>
-      <HeroSection />
-      <CourseListing />
+      <HeroSection
+        onClick={() =>
+          window.scrollTo({
+            top: courseListingRef.current.offsetTop,
+            behavior: "smooth",
+          })
+        }
+      />
+      <CourseListing ref={courseListingRef} />
     </Container>
   );
 }
