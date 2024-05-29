@@ -2,6 +2,7 @@
 
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
 
 import CurriculumDropdown from "@/app/components/CurriculumDropdown";
 import { courseDetails as data } from "@/constants";
@@ -9,6 +10,7 @@ import { courseDetails as data } from "@/constants";
 import paymentAbi from "@/constants/paymentabi.json";
 
 export default function LectureOverviewPage({ children }) {
+  const { lectureId } = useParams() || {};
   const [provider, setProvider] = useState(null);
   const [amountClaimable, setAmountClaimable] = useState(0);
 
@@ -74,6 +76,25 @@ export default function LectureOverviewPage({ children }) {
     } catch (e) {}
   }, []);
 
+  const activeSectionIndex = data[0]?.details?.sections.findIndex((section) =>
+    section.subSections.find(({ link }) => link.includes(lectureId)),
+  );
+
+  const subsectionIndex = data[0]?.details?.sections[
+    activeSectionIndex
+  ].subSections.findIndex(({ link }) => link.includes(lectureId));
+
+  const totalSubsections = getTotalSubsections(data[0]?.details?.sections);
+
+  const countOfCompletedSubsections =
+    getTotalSubsections(
+      data[0]?.details?.sections.slice(0, activeSectionIndex),
+    ) + subsectionIndex;
+
+  const learningPercent = Math.ceil(
+    (countOfCompletedSubsections / totalSubsections) * 100,
+  );
+
   return (
     <div className="grid h-full grid-cols-12">
       {children}
@@ -82,8 +103,10 @@ export default function LectureOverviewPage({ children }) {
           <h1 className="text-gray-400">Your learning progress</h1>
           <div className="rounded-md bg-blue-200 px-4 py-3">
             <div className="flex justify-between">
-              <p className="font-semibold">60%</p>
-              <p className="font-semibold">42 / 78 Completion</p>
+              <p className="font-semibold">{learningPercent}%</p>
+              <p className="font-semibold">
+                {countOfCompletedSubsections} / {totalSubsections} Completion
+              </p>
             </div>
             <div
               className="mt-2 flex h-1.5 w-full overflow-hidden rounded-full bg-gray-200"
@@ -154,10 +177,25 @@ export default function LectureOverviewPage({ children }) {
         </div>
         <div className="h-screen">
           {data[0]["details"]["sections"].map((section, index) => {
-            return <CurriculumDropdown data={section} index={index} />;
+            return (
+              <CurriculumDropdown
+                key={index}
+                data={section}
+                activeSectionIndex={activeSectionIndex}
+                subsectionIndex={subsectionIndex}
+                index={index}
+              />
+            );
           })}
         </div>
       </div>
     </div>
   );
 }
+
+const getTotalSubsections = (data) => {
+  return data.reduce((acc, section) => {
+    acc += section?.subSections.length;
+    return acc;
+  }, 0);
+};
