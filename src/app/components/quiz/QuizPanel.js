@@ -1,5 +1,5 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
 
 import QuizQuestionPanel from "@/app/components/quiz/QuizQuestionPanel";
@@ -9,13 +9,14 @@ import UserInputModal from "@/app/components/UserInputModal";
 import CertificateModal from "@/app/components/CertificateModal";
 import { createCertificate, downloadFile } from "@/app/lib/canvas/canvas";
 import { sendFileToIPFS } from "@/app/actions/uploadToIPFS";
+import { quizData } from "@/constants/course-quizzes";
 
 const REQUIRED_PERCENTAGE_SCORE = 75;
 
 export default function QuizPanel({ quiz }) {
   const router = useRouter();
-  // const { question, answerOptions, selectedAnswerIdx } = quiz || quizSample;
-  const quizSample = quiz || quizSampleM;
+  const { lectureId } = useParams() || {};
+  const quizSample = quiz || quizData[lectureId];
   const totalQuestions = quizSample.length;
   let [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   let [selectedAnswerIdx, setSelectedAnswerIdx] = useState(-1);
@@ -24,6 +25,8 @@ export default function QuizPanel({ quiz }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState(null);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
+
+  const attemptedQuestionIndices = []; // array of the indices of the attempted questions
 
   function onSubmit(userName) {
     setUserName(userName);
@@ -40,7 +43,7 @@ export default function QuizPanel({ quiz }) {
     quizSample[currentQuestionIdx].selectedAnswerIdx = i;
     setSelectedAnswerIdx(i);
   };
-  let answerOptions = quizSample[0].answerOptions;
+  let answerOptions = quizSample[currentQuestionIdx].answerOptions;
   return (
     <>
       <Box p={4}>
@@ -174,37 +177,3 @@ export default function QuizPanel({ quiz }) {
     /* downloadFile(cert); */
   }
 }
-
-const quizSampleM = [
-  {
-    question: {
-      idx: 0,
-      questionText:
-        "Which JavaScript operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-  {
-    question: {
-      idx: 1,
-      questionText:
-        "Which Python operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-  {
-    question: {
-      idx: 2,
-      questionText:
-        "Which Java operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-];
-const attemptedQuestionIndices = []; // array of the indices of the attempted questions

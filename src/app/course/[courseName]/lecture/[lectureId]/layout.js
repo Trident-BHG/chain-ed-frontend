@@ -117,7 +117,7 @@ export default function LectureOverviewPage({ children }) {
             >
               <div
                 className="flex flex-col justify-center overflow-hidden whitespace-nowrap rounded-full bg-blue-700 text-center text-xs text-white transition duration-500"
-                style={{ width: "60%" }}
+                style={{ width: `${learningPercent}%` }}
               ></div>
             </div>
           </div>
