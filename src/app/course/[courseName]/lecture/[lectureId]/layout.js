@@ -183,7 +183,7 @@ export default function LectureOverviewPage({ children }) {
                 data={section}
                 activeSectionIndex={activeSectionIndex}
                 subsectionIndex={subsectionIndex}
-                index={index}
+                sectionIndex={index}
               />
             );
           })}

@@ -8,17 +8,17 @@ import { useRouter } from "next/navigation";
 
 export default function CurriculumDropdown({
   data,
-  index,
+  sectionIndex,
   activeSectionIndex,
-  subsectionIndex,
+  subsectionIndex: activeSubsectionIndex,
 }) {
   const router = useRouter();
 
-  const isActive = activeSectionIndex === index;
+  const isSectionActive = activeSectionIndex === sectionIndex;
 
-  const [isOpen, setIsOpen] = useState(isActive);
+  const [isOpen, setIsOpen] = useState(isSectionActive);
   return (
-    <div key={index}>
+    <div key={sectionIndex}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer rounded border-b-2 border-gray-300 bg-gray-100 p-2"
@@ -45,7 +45,7 @@ export default function CurriculumDropdown({
             </div>
           </div>
 
-          {index < activeSectionIndex ? (
+          {sectionIndex < activeSectionIndex ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -64,12 +64,24 @@ export default function CurriculumDropdown({
       {isOpen && (
         <>
           {data.subSections.map((subsection, i) => {
-            const isSubsectionActive = isActive && subsectionIndex === i;
-            const dashOffset = isSubsectionActive
-              ? "90"
-              : i < subsectionIndex
-                ? "0"
-                : "100";
+            const isSubsectionActive =
+              isSectionActive && activeSubsectionIndex === i;
+            let dashOffset = 100;
+
+            // TODO: ugly logic, fix this
+            if (sectionIndex > activeSectionIndex) {
+              dashOffset = 100;
+            } else if (sectionIndex < activeSectionIndex) {
+              dashOffset = 0;
+              // from here on sectionIndex === activeSectionIndex
+            } else if (i > activeSubsectionIndex) {
+              dashOffset = 100;
+            } else if (i < activeSubsectionIndex) {
+              dashOffset = 0;
+              // i == activeSubsectionIndex
+            } else {
+              dashOffset = 50;
+            }
 
             return (
               <div
