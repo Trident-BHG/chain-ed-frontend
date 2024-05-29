@@ -1,5 +1,5 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
-import { useRouter, useParams } from "next/navigation";
+import { useRouter, useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 
 import QuizQuestionPanel from "@/app/components/quiz/QuizQuestionPanel";
@@ -10,11 +10,13 @@ import CertificateModal from "@/app/components/CertificateModal";
 import { createCertificate, downloadFile } from "@/app/lib/canvas/canvas";
 import { sendFileToIPFS } from "@/app/actions/uploadToIPFS";
 import { quizData } from "@/constants/course-quizzes";
+import { courseDetails as data } from "@/constants";
 
-const REQUIRED_PERCENTAGE_SCORE = 75;
+const REQUIRED_PERCENTAGE_SCORE = 60;
 
 export default function QuizPanel({ quiz }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { lectureId } = useParams() || {};
   const quizSample = quiz || quizData[lectureId];
   const totalQuestions = quizSample.length;
@@ -25,6 +27,17 @@ export default function QuizPanel({ quiz }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState(null);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
+
+  const lastQuizKeyName = Object.keys(quizData).at(-1);
+  const isCourseFinalQuiz = lastQuizKeyName === lectureId;
+
+  const currentSectionIndex = data[0].details.sections.findIndex((section) =>
+    section.subSections.find(({ link }) => link === pathname),
+  );
+
+  const nextSectionLink = isCourseFinalQuiz
+    ? null
+    : data[0].details.sections[currentSectionIndex + 1]?.subSections[0]?.link;
 
   const attemptedQuestionIndices = []; // array of the indices of the attempted questions
 
@@ -149,8 +162,14 @@ export default function QuizPanel({ quiz }) {
     const percentageScore = (score / quizSample.length) * 100;
     if (percentageScore > REQUIRED_PERCENTAGE_SCORE) {
       console.log("congrats you have cleared the section");
-      setIsUserInputModalOpen(true); // show userInput modal
-      return;
+
+      // if final quiz of score, open userInput modal for certificate generation
+      if (isCourseFinalQuiz) {
+        setIsUserInputModalOpen(true); // show userInput modal
+        return;
+      }
+      // else move to the next section of the course
+      router.push(nextSectionLink);
     }
 
     console.log("Watch the videos again and re-try the test");
