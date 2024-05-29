@@ -1,5 +1,6 @@
 "use client";
 
+import NextLink from "next/link";
 import Image from "next/image";
 import {
   Box,
@@ -107,7 +108,7 @@ export default function NavBar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box color="red">
+            <Box as={NextLink} display="flex" href="/" color="red">
               <Image
                 className="relative"
                 src="/logo.svg"
@@ -124,27 +125,39 @@ export default function NavBar() {
             </Button> */}
 
             {account || isWeb3Enabled ? (
-            <div><Button variant="outline">
-              <Image src="./wallet.svg" alt="Student Wallet Icon" width={24} height={24} />
-              <pre> </pre>
-              {accountBalance} ETH | {account.slice(0,4) + "..." + account.slice(-4)}
-              </Button></div>
-            ):
-            <Button variant="outline" rightIcon={<ArrowRight />} onClick={async () => {
-            console.log(await enableWeb3());
-            console.log(isWeb3Enabled);
-            if (typeof window !== "undefined") {
-              window.localStorage.setItem("Connected", "Injected");
-              window.scrollTo({
-                top: 680,
-                behavior:"smooth"
-              });
-            }
-          }}
-          disabled={isWeb3EnableLoading}>
-              Connect Wallet
-            </Button>
-          }
+              <div>
+                <Button variant="outline">
+                  <Image
+                    src="/wallet.svg"
+                    alt="Student Wallet Icon"
+                    width={24}
+                    height={24}
+                  />
+                  <pre> </pre>
+                  {accountBalance} ETH |{" "}
+                  {account.slice(0, 4) + "..." + account.slice(-4)}
+                </Button>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                rightIcon={<ArrowRight />}
+                onClick={async () => {
+                  console.log(await enableWeb3());
+                  console.log(isWeb3Enabled);
+                  if (typeof window !== "undefined") {
+                    window.localStorage.setItem("Connected", "Injected");
+                    window.scrollTo({
+                      top: 680,
+                      behavior: "smooth",
+                    });
+                  }
+                }}
+                disabled={isWeb3EnableLoading}
+              >
+                Connect Wallet
+              </Button>
+            )}
 
             {/* <div >
             <ConnectButton moralisAuth={false} class="connect-wallet-button"/>

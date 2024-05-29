@@ -36,16 +36,16 @@ export default function CourseOutline(props) {
   const { sections } = details || {};
 
   let numberOfSections = sections.length;
-  let lectures = 0; 
+  let lectures = 0;
   let totalDuration = 0;
-  for(let i=0;i<numberOfSections;i++){
-   let numberOfSubsections = (sections[i].subSections).length;
+  for (let i = 0; i < numberOfSections; i++) {
+    let numberOfSubsections = sections[i].subSections.length;
     lectures = lectures + numberOfSubsections;
-    for(let j=0;j<numberOfSubsections;j++){
-      totalDuration = totalDuration + (sections[i].subSections[j].content.duration || 0);
+    for (let j = 0; j < numberOfSubsections; j++) {
+      totalDuration =
+        totalDuration + (sections[i].subSections[j].content.duration || 0);
     }
   }
-
 
   return (
     <Box borderTop="1px" borderColor="gray.50" p={4} pl="0" {...rest}>
@@ -68,11 +68,11 @@ export default function CourseOutline(props) {
         </ListItem>
         <ListItem display="inline-flex" alignItems="center">
           <ListIcon as={CircleIcon} boxSize={2} ml={2} />
-          {parseInt(totalDuration / 60)}h {totalDuration%60}m
+          {parseInt(totalDuration / 60)}h {totalDuration % 60}m
         </ListItem>
         <ListItem display="inline-flex" alignItems="center">
-          <ListIcon as={CircleIcon} boxSize={2} ml={2} />
-          ${course.cashback} cashback
+          <ListIcon as={CircleIcon} boxSize={2} ml={2} />${course.cashback}{" "}
+          cashback
         </ListItem>
       </List>
 
@@ -87,11 +87,13 @@ export default function CourseOutline(props) {
         {sections.map(({ name, subSections }, i) => {
           let sectionCashback = 0;
           let sectionDuration = 0;
-          for(let j=0;j<subSections.length;j++){
-            sectionCashback = sectionCashback + (subSections[j].content.cashback || 0);
+          for (let j = 0; j < subSections.length; j++) {
+            sectionCashback =
+              sectionCashback + (subSections[j].content.cashback || 0);
           }
-          for(let j=0;j<subSections.length;j++){
-            sectionDuration = sectionDuration + (subSections[j].content.duration || 0);
+          for (let j = 0; j < subSections.length; j++) {
+            sectionDuration =
+              sectionDuration + (subSections[j].content.duration || 0);
           }
 
           return (
@@ -142,13 +144,15 @@ const CourseSubSections = ({ subSections }) => {
           key={`course-subsection-${name}-${i}`}
           justify="space-between"
           mb={2}
-          fontsize="xs"
+          fontSize="xs"
         >
           <Center>
             <IconElement type={content.type} />
             <Text ml={4}>{name}</Text>
           </Center>
-          <Text fontSize="xs">{content.duration ? content.duration + "m" : "-"}</Text>
+          <Text fontSize="xs">
+            {content.duration ? content.duration + "m" : "-"}
+          </Text>
         </Flex>
       ))}
     </AccordionPanel>

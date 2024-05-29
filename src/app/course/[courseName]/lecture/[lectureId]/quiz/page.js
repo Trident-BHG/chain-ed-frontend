@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import QuizPanel from "@/app/components/quiz/QuizPanel";
 
 export default function Quiz() {

@@ -19,9 +19,7 @@ import Dashboard from "@/app/dashboard/Dashboard";
 export default function Home() {
   return (
     <Container as="main" maxW={"7xl"}>
-      {/* <main className="flex min-h-screen flex-col items-center justify-between p-24"> */}
-      <Dashboard/>
-      {/* </main> */}
+      <Dashboard />
     </Container>
   );
 }

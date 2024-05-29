@@ -15,7 +15,7 @@ import {
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 import StarRatings from "@/app/components/StarRatings";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 export default function CourseCard({ course }) {
   const router = useRouter();
@@ -28,7 +28,7 @@ export default function CourseCard({ course }) {
     fees,
     cashback,
     rating,
-    thumbnail = "./course_thumbnails/course1.jpg",
+    thumbnail = "/course_thumbnails/course1.jpg",
   } = course || {};
   return (
     <Card maxW="300px">
@@ -81,8 +81,8 @@ export default function CourseCard({ course }) {
         <Button
           width="100%"
           variant="solid"
-          rightIcon={<ArrowRight color={"white"}/>}
-          onClick = {() => router.push('/course-details/course/' + id) }
+          rightIcon={<ArrowRight color={"white"} />}
+          onClick={() => router.push("/course-details/course/" + id)}
         >
           Enroll Now
         </Button>

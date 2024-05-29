@@ -1,3 +1,5 @@
+"use cleint";
+
 import { Inter } from "next/font/google";
 import { Providers } from "@/app/providers";
 import localFont from "next/font/local";

@@ -8,7 +8,7 @@ const courseDetails = [
     fees: "30",
     cashback: "10",
     rating: 4,
-    thumbnail: "./course_thumbnails/course2.jpg",
+    thumbnail: "/course_thumbnails/course2.jpg",
     tags: ["popular", "new"],
     details: {
       noOfEnrolledStudents: 100,
