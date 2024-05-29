@@ -158,6 +158,7 @@ export default function QuizPanel({ quiz }) {
       userName,
       instructorName = "Mayank Chhipa",
       courseTitle = "An Intro to JS",
+      chainId = 11155111,
     } = props;
     const cert = await createCertificate(userName, instructorName, courseTitle);
     const formData = new FormData();
