@@ -57,7 +57,7 @@ export default function HeroSection({ course, ...rest }) {
 
     let tx = await ERC20Contract.approve(
       process.env.PAYMENT_CONTRACT_ADDRESS,
-      ethers.utils.parseUnits("200", 6),
+      ethers.utils.parseUnits("50", 6),
     );
 
     console.log(tx);

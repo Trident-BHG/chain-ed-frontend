@@ -1,5 +1,7 @@
 "use client";
 
+import { forwardRef } from "react";
+
 import {
   Container,
   Stack,
@@ -25,9 +27,15 @@ import ArrowRight from "@/app/components/icons/ArrowRight";
 import CoursExplorer from "@/app/components/CourseExplorer";
 import CourseExplorer from "@/app/components/CourseExplorer";
 
-export default function LandingPage() {
+const LandingPage = forwardRef((props, ref) => {
   return (
-    <Container maxWidth="100%" borderTop="1px" borderColor="gray.100" pt="8">
+    <Container
+      maxWidth="100%"
+      borderTop="1px"
+      borderColor="gray.100"
+      pt="8"
+      ref={ref}
+    >
       <VStack>
         <Heading as="div">
           <Text>Course Listing</Text>
@@ -40,4 +48,6 @@ export default function LandingPage() {
       </VStack>
     </Container>
   );
-}
+});
+
+export default LandingPage;

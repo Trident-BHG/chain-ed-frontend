@@ -6,12 +6,19 @@ import VideoIcon from "./icons/Video";
 
 import { useRouter } from "next/navigation";
 
-export default function CurriculumDropdown({ data, index }) {
+export default function CurriculumDropdown({
+  data,
+  sectionIndex,
+  activeSectionIndex,
+  subsectionIndex: activeSubsectionIndex,
+}) {
   const router = useRouter();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const isSectionActive = activeSectionIndex === sectionIndex;
+
+  const [isOpen, setIsOpen] = useState(isSectionActive);
   return (
-    <div key={index}>
+    <div key={sectionIndex}>
       <div
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer rounded border-b-2 border-gray-300 bg-gray-100 p-2"
@@ -38,23 +45,44 @@ export default function CurriculumDropdown({ data, index }) {
             </div>
           </div>
 
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="blue"
-            className="h-8 w-8"
-          >
-            <path
-              fillRule="evenodd"
-              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-              clipRule="evenodd"
-            />
-          </svg>
+          {sectionIndex < activeSectionIndex ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="blue"
+              className="h-8 w-8"
+            >
+              <path
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          ) : null}
         </div>
       </div>
       {isOpen && (
         <>
-          {data.subSections.map((subsection) => {
+          {data.subSections.map((subsection, i) => {
+            const isSubsectionActive =
+              isSectionActive && activeSubsectionIndex === i;
+            let dashOffset = 100;
+
+            // TODO: ugly logic, fix this
+            if (sectionIndex > activeSectionIndex) {
+              dashOffset = 100;
+            } else if (sectionIndex < activeSectionIndex) {
+              dashOffset = 0;
+              // from here on sectionIndex === activeSectionIndex
+            } else if (i > activeSubsectionIndex) {
+              dashOffset = 100;
+            } else if (i < activeSubsectionIndex) {
+              dashOffset = 0;
+              // i == activeSubsectionIndex
+            } else {
+              dashOffset = 50;
+            }
+
             return (
               <div
                 className="mx-5 flex cursor-pointer items-center justify-between p-2"
@@ -66,7 +94,9 @@ export default function CurriculumDropdown({ data, index }) {
                   ) : (
                     <VideoIcon />
                   )}
-                  <h3 className="text-lg font-medium text-gray-600">
+                  <h3
+                    className={`text-lg  ${isSubsectionActive ? "trxt-gray-800 font-bold	" : "font-medium text-gray-600"}`}
+                  >
                     {subsection.name}
                   </h3>
                 </div>
@@ -97,7 +127,7 @@ export default function CurriculumDropdown({ data, index }) {
                         className="stroke-current text-blue-600 dark:text-blue-500"
                         strokeWidth="4"
                         stroke-dasharray="100"
-                        stroke-dashoffset="75"
+                        stroke-dashoffset={dashOffset}
                       ></circle>
                     </g>
                   </svg>

@@ -1,6 +1,8 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useParams, usePathname } from "next/navigation";
+import { useState, useContext } from "react";
+
+import { ethers } from "ethers";
 
 import QuizQuestionPanel from "@/app/components/quiz/QuizQuestionPanel";
 import QuizAnswerPanel from "@/app/components/quiz/QuizAnswerPanel";
@@ -9,13 +11,19 @@ import UserInputModal from "@/app/components/UserInputModal";
 import CertificateModal from "@/app/components/CertificateModal";
 import { createCertificate, downloadFile } from "@/app/lib/canvas/canvas";
 import { sendFileToIPFS } from "@/app/actions/uploadToIPFS";
+import { quizData } from "@/constants/course-quizzes";
+import { courseDetails as data } from "@/constants";
+import paymentAbi from "@/constants/paymentabi.json";
+import AppContext from "@/store/app-context";
 
-const REQUIRED_PERCENTAGE_SCORE = 75;
+const REQUIRED_PERCENTAGE_SCORE = 60;
 
 export default function QuizPanel({ quiz }) {
+  const { setAmountClaimable } = useContext(AppContext);
   const router = useRouter();
-  // const { question, answerOptions, selectedAnswerIdx } = quiz || quizSample;
-  const quizSample = quiz || quizSampleM;
+  const pathname = usePathname();
+  const { lectureId } = useParams() || {};
+  const quizSample = quiz || quizData[lectureId];
   const totalQuestions = quizSample.length;
   let [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
   let [selectedAnswerIdx, setSelectedAnswerIdx] = useState(-1);
@@ -24,6 +32,19 @@ export default function QuizPanel({ quiz }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userName, setUserName] = useState(null);
   const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
+
+  const lastQuizKeyName = Object.keys(quizData).at(-1);
+  const isCourseFinalQuiz = lastQuizKeyName === lectureId;
+
+  const currentSectionIndex = data[0].details.sections.findIndex((section) =>
+    section.subSections.find(({ link }) => link === pathname),
+  );
+
+  const nextSectionLink = isCourseFinalQuiz
+    ? null
+    : data[0].details.sections[currentSectionIndex + 1]?.subSections[0]?.link;
+
+  const attemptedQuestionIndices = []; // array of the indices of the attempted questions
 
   function onSubmit(userName) {
     setUserName(userName);
@@ -40,7 +61,7 @@ export default function QuizPanel({ quiz }) {
     quizSample[currentQuestionIdx].selectedAnswerIdx = i;
     setSelectedAnswerIdx(i);
   };
-  let answerOptions = quizSample[0].answerOptions;
+  let answerOptions = quizSample[currentQuestionIdx].answerOptions;
   return (
     <>
       <Box p={4}>
@@ -146,8 +167,16 @@ export default function QuizPanel({ quiz }) {
     const percentageScore = (score / quizSample.length) * 100;
     if (percentageScore > REQUIRED_PERCENTAGE_SCORE) {
       console.log("congrats you have cleared the section");
-      setIsUserInputModalOpen(true); // show userInput modal
-      return;
+
+      // if final quiz of score, open userInput modal for certificate generation
+      if (isCourseFinalQuiz) {
+        setIsUserInputModalOpen(true); // show userInput modal
+        return;
+      }
+      // else move to the next section of the course
+      // TODO: Sudhanshu: add your code here for cashback
+      completeCourseSubsection();
+      router.push(nextSectionLink);
     }
 
     console.log("Watch the videos again and re-try the test");
@@ -158,12 +187,14 @@ export default function QuizPanel({ quiz }) {
       userName,
       instructorName = "Mayank Chhipa",
       courseTitle = "An Intro to JS",
+      chainId = 11155111,
     } = props;
     const cert = await createCertificate(userName, instructorName, courseTitle);
     const formData = new FormData();
     formData.append("file", cert);
     setIsLoading(true);
     const res = await sendFileToIPFS(formData);
+    // TODO: Mayank - add your code for NFT generation here.
     setIsLoading(false);
     const ipfsTokenURI = "https://ipfs.io/ipfs/" + res.IpfsHash;
     console.log("NFT Generation Completed!!");
@@ -172,38 +203,42 @@ export default function QuizPanel({ quiz }) {
     return ipfsTokenURI;
     /* downloadFile(cert); */
   }
-}
 
-const quizSampleM = [
-  {
-    question: {
-      idx: 0,
-      questionText:
-        "Which JavaScript operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-  {
-    question: {
-      idx: 1,
-      questionText:
-        "Which Python operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-  {
-    question: {
-      idx: 2,
-      questionText:
-        "Which Java operator is used to assign a value to a variable?",
-    },
-    answerOptions: [{ text: "=" }, { text: "+" }, { text: "*" }, { text: "/" }],
-    selectedAnswerIdx: -1,
-    answer: 0,
-  },
-];
-const attemptedQuestionIndices = []; // array of the indices of the attempted questions
+  async function completeCourseSubsection() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    const tx = await PaymentContract.updateClaims(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+      ethers.utils.parseUnits("20", 6),
+    );
+
+    let receipt = await provider.getTransactionReceipt(tx.hash);
+    console.log(receipt);
+
+    // if receipt.status == 1 , the transaction is complete.
+    if (receipt.status == 1) {
+      getAmountClaimableByTheUser(provider);
+    }
+  }
+
+  async function getAmountClaimableByTheUser(provider) {
+    const PaymentContract = new ethers.Contract(
+      process.env.PAYMENT_CONTRACT_ADDRESS,
+      paymentAbi,
+      provider.getSigner(),
+    );
+
+    let tx = await PaymentContract.getAmountClaimableByUser(
+      process.env.TEST_USER_ADDRESS,
+      process.env.TEST_COURSE_ID,
+    );
+
+    setAmountClaimable(ethers.utils.formatUnits(tx, 6));
+  }
+}
