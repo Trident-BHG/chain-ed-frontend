@@ -21,6 +21,11 @@ import styles from "./styles.module.css";
 import Modal from "@/app/components/Modal";
 import ArrowRight from "@/app/components/icons/ArrowRight";
 
+import { ethers } from "ethers";
+import sourceMinterABI from "@/constants/abi/source-minter.json";
+import certificateSepoliaABI from "@/constants/abi/certificate-sepolia.json";
+import { Providers } from "@/app/providers";
+
 export default function CertificateModal({
   isOpen,
   onClose,
@@ -31,6 +36,8 @@ export default function CertificateModal({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [ipfsTokenURI, setIpfsTokenURI] = useState(null);
+  const [provider, setProvider] = useState(null);
+
 
   const onSubmit = async () => {
     setIsLoading(true);
@@ -38,6 +45,36 @@ export default function CertificateModal({
     console.log({ ipfsTokenURI });
     setIpfsTokenURI(response);
     setIsLoading(false);
+
+    console.log(sourceMinterABI);
+
+    const sourceMinter = ethers.Contract(
+      process.env.SOURCE_MINTER_ADDRESS,
+      sourceMinterABI,
+      provider.getSigner()
+    );
+
+    const certificateSepolia = ethers.Contract(
+      process.env.SOURCE_MINTER_ADDRESS,
+      sourceMinterABI,
+      provider.getSigner()
+    );
+
+    const options = { gasLimit: 600000 };
+    
+    let transactionResponse = await sourceMinter.mint(
+      destinationChainSelector,
+      destinationChainContract,
+      receiverStudentAddress,
+      ipfsTokenURI,
+      options
+    );
+
+    const receipt = await transactionResponse.wait(1);
+    if(receipt == 1){
+      console.log("NFT creation successful");
+    }
+
   };
 
   return (
