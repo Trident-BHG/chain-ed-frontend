@@ -25,6 +25,7 @@ import { ethers } from "ethers";
 import sourceMinterABI from "@/constants/abi/source-minter.json";
 import certificateSepoliaABI from "@/constants/abi/certificate-sepolia.json";
 import { Providers } from "@/app/providers";
+import { useMoralis } from "react-moralis";
 
 export default function CertificateModal({
   isOpen,
@@ -37,6 +38,8 @@ export default function CertificateModal({
   const [isLoading, setIsLoading] = useState(false);
   const [ipfsTokenURI, setIpfsTokenURI] = useState(null);
   const [provider, setProvider] = useState(null);
+  const {account} = useMoralis();
+  const receiverStudentAddress = account;
 
 
   const onSubmit = async () => {
@@ -48,19 +51,27 @@ export default function CertificateModal({
 
     console.log(sourceMinterABI);
 
+    const SEPOLIA_PRIVATE_KEY="3d4abe07e7f078c12f0efb47d972c2f550e30cad29c4706ad7f4bd6fa69a7e6e";
+
+
+    const signer = new ethers.Wallet(SEPOLIA_PRIVATE_KEY);
+
     const sourceMinter = ethers.Contract(
       process.env.SOURCE_MINTER_ADDRESS,
       sourceMinterABI,
-      provider.getSigner()
+      signer
     );
 
     const certificateSepolia = ethers.Contract(
-      process.env.SOURCE_MINTER_ADDRESS,
-      sourceMinterABI,
-      provider.getSigner()
+      process.env.CERTIFICATE_SEPOLIA_ADDRESS,
+      certificateSepoliaABI,
+      signer
     );
 
     const options = { gasLimit: 600000 };
+
+    const destinationChainContract = "0x5367990A2749E4008F7377cCb3A0f8c4ABA90d52"; // address of Destination Minter
+    const destinationChainSelector = "3478487238524512106";    
     
     let transactionResponse = await sourceMinter.mint(
       destinationChainSelector,
