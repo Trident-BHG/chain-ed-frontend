@@ -14,6 +14,8 @@ import {
   Center,
   Image,
   Link,
+  Select,
+  Option,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 
@@ -41,10 +43,13 @@ export default function CertificateModal({
   const {account} = useMoralis();
   const receiverStudentAddress = account;
 
+  const SEPOLIA_CHAIN_ID = 11155111;
+
+  const [chainId, setChainId] = useState(SEPOLIA_CHAIN_ID);
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const response = await modalAction({ userName });
+    const response = await modalAction({ userName, chainId });
     console.log({ ipfsTokenURI });
     setIpfsTokenURI(response);
     setIsLoading(false);
@@ -101,6 +106,19 @@ export default function CertificateModal({
             </Text>
             ,<br /> you just completed a course
           </Text>
+
+          <FormControl mt={4}>
+            <FormLabel>Select Chain for your NFT certificate</FormLabel>
+            <Select
+              size="sm"
+              mt={2}
+              onChange={(e) => setChainId(e.target.value)}
+            >
+              <option value={11155111}>Sepolia</option>
+              <option value={421614}>Arbitrum</option>
+            </Select>
+          </FormControl>
+
           {isLoading ? (
             <Text
               mt={2}
@@ -113,7 +131,7 @@ export default function CertificateModal({
           ) : null}
         </VStack>
       </Center>
-      <Center mt={4} mb={8}>
+      <Center mt={8} mb={8}>
         {!ipfsTokenURI ? (
           <Button
             isLoading={isLoading}

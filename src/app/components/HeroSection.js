@@ -17,7 +17,7 @@ import {
 
 import ArrowRight from "@/app/components/icons/ArrowRight";
 
-export default function HeroSection() {
+export default function HeroSection({ onClick }) {
   return (
     <Container maxWidth="100%">
       <Stack
@@ -63,6 +63,7 @@ export default function HeroSection() {
               size={"lg"}
               fontWeight={"normal"}
               px={6}
+              onClick={onClick}
               rightIcon={<ArrowRight color={"white"} />}
             >
               Explore Course
