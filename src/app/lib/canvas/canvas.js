@@ -21,7 +21,9 @@ export async function createCertificate(
   studentName,
   instructorName,
   courseName,
+  { fonts },
 ) {
+  const { poppins, great_Vibes, playpen_sans } = fonts || {};
   const date = new Date();
   const completionDate =
     months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
@@ -32,13 +34,13 @@ export async function createCertificate(
   const pattern = context.createPattern(image, "no-repeat");
   context.fillStyle = pattern;
   context.fillRect(0, 0, width, height);
-  context.font = "50px 'Great Vibes'";
+  context.font = `50px ${great_Vibes.style.fontFamily}`;
   context.textAlign = "center";
   context.fillStyle = "#e9b72e";
   context.fillText(studentName, 424, 305);
-  context.font = "17px 'Poppins'";
+  context.font = `17px ${poppins.style.fontFamily}`;
   context.textAlign = "center";
-  context.fillStyle = "#000";
+  context.fillStyle = "#818589";
   const message = `for successfully completing ${courseName} online course on ${completionDate}`;
   const lines = formatTitle(message);
   context.fillText(lines[0], 424, 360);
@@ -48,11 +50,11 @@ export async function createCertificate(
   if (lines[2]) {
     context.fillText(lines[2], 424, 400);
   }
-  context.font = "8px 'Comic Sans'";
+  context.font = `8px ${playpen_sans.style.fontFamily}`;
   context.textAlign = "center";
   context.fillStyle = "#000";
   context.fillText("Best Regards", 424, 480);
-  context.font = "20px 'Great Vibes'";
+  context.font = `20px ${great_Vibes.style.fontFamily}`;
   context.fillText(instructorName, 424, 510);
   // const buffer = canvas.toBuffer("image/jpeg");
   // here is the most important part because if you dont replace you will get a DOM 18 exception.
@@ -68,24 +70,6 @@ export async function createCertificate(
     mime: "image/jpeg",
     quality: 1,
   });
-
-  const canvasImg = await canvas.toBlob(
-    (blob) => {
-      const newImg = document.createElement("img");
-      const url = window.URL.createObjectURL(blob);
-
-      newImg.onload = () => {
-        // no longer need to read the blob so it's revoked
-        URL.revokeObjectURL(url);
-      };
-
-      newImg.src = document.body.appendChild(newImg);
-      return newImg;
-    },
-    "image/jpeg",
-    1,
-  );
-  return canvasImg;
 }
 
 export const createCanvas = (width, height) => {

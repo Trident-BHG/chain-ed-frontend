@@ -1,6 +1,7 @@
 import { Box, Flex, Button } from "@chakra-ui/react";
 import { useRouter, useParams, usePathname } from "next/navigation";
 import { useState } from "react";
+import { Poppins, Great_Vibes, Playpen_Sans } from "next/font/google";
 
 import QuizQuestionPanel from "@/app/components/quiz/QuizQuestionPanel";
 import QuizAnswerPanel from "@/app/components/quiz/QuizAnswerPanel";
@@ -13,6 +14,24 @@ import { quizData } from "@/constants/course-quizzes";
 import { courseDetails as data } from "@/constants";
 
 const REQUIRED_PERCENTAGE_SCORE = 60;
+
+export const poppins = Poppins({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+});
+
+export const great_Vibes = Great_Vibes({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+});
+
+export const playpen_sans = Playpen_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  weight: ["400"],
+});
 
 export default function QuizPanel({ quiz }) {
   const router = useRouter();
@@ -168,8 +187,6 @@ export default function QuizPanel({ quiz }) {
         setIsUserInputModalOpen(true); // show userInput modal
         return;
       }
-      // else move to the next section of the course
-      // TODO: Sudhanshu: add your code here for cashback
       router.push(nextSectionLink);
     }
 
@@ -180,21 +197,37 @@ export default function QuizPanel({ quiz }) {
     const {
       userName,
       instructorName = "Mayank Chhipa",
-      courseTitle = "An Intro to JS",
+      courseTitle = "Introduction to HTML, CSS and Javascript",
       chainId = 11155111,
     } = props;
-    const cert = await createCertificate(userName, instructorName, courseTitle);
+    const cert = await createCertificate(
+      userName,
+      instructorName,
+      courseTitle,
+      {
+        fonts: {
+          poppins,
+          great_Vibes,
+          playpen_sans,
+        },
+      },
+    );
+    // console.log({ cert });
+    // downloadFile(cert);
     const formData = new FormData();
     formData.append("file", cert);
     setIsLoading(true);
-    const res = await sendFileToIPFS(formData);
-    // TODO: Mayank - add your code for NFT generation here.
+    const res = await sendFileToIPFS(formData, {
+      userName,
+      courseTitle,
+      instructorName,
+    });
     setIsLoading(false);
-    const ipfsTokenURI = "https://ipfs.io/ipfs/" + res.IpfsHash;
+    const { certResponse, metaDataRes } = res || {};
+    const ipfsTokenURI = "https://ipfs.io/ipfs/" + metaDataRes?.IpfsHash;
     console.log("NFT Generation Completed!!");
-    console.log({ res });
+    console.log(res);
     console.log({ ipfsTokenURI });
     return ipfsTokenURI;
-    /* downloadFile(cert); */
   }
 }
