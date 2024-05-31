@@ -15,6 +15,7 @@ const courseDetails = [
       sections: [
         {
           name: "Introduction",
+          sectionInfo: "4 lectures | 11 minutes | $4 cashback",
           subSections: [
             {
               name: "Introduction to HTML, CSS and Javascript",
@@ -65,6 +66,7 @@ const courseDetails = [
         },
         {
           name: "HTML Tutorials",
+          sectionInfo: "4 lectures | 11 minutes | $2.5 cashback",
           subSections: [
             {
               name: "Heading and Paragraph Tag",
@@ -114,6 +116,7 @@ const courseDetails = [
         },
         {
           name: "CSS Tutorials",
+          sectionInfo: "4 lectures | 11 minutes | $2.5 cashback",
           subSections: [
             {
               name: "Introduction to CSS",

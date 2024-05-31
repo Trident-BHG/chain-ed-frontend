@@ -23,6 +23,12 @@ import styles from "./styles.module.css";
 import Modal from "@/app/components/Modal";
 import ArrowRight from "@/app/components/icons/ArrowRight";
 
+import { ethers } from "ethers";
+import sourceMinterABI from "@/constants/abi/source-minter.json";
+import certificateSepoliaABI from "@/constants/abi/certificate-sepolia.json";
+import { Providers } from "@/app/providers";
+import { useMoralis } from "react-moralis";
+
 export default function CertificateModal({
   isOpen,
   onClose,
@@ -33,14 +39,62 @@ export default function CertificateModal({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [ipfsTokenURI, setIpfsTokenURI] = useState(null);
-  const [chainId, setChainId] = useState(11155111);
+  const [provider, setProvider] = useState(null);
+  const {account} = useMoralis();
+  const receiverStudentAddress = account;
+
+  const [chainId, setChainId] = useState(process.env.SEPOLIA_CHAIN_ID);
 
   const onSubmit = async () => {
     setIsLoading(true);
     const response = await modalAction({ userName, chainId });
     console.log({ ipfsTokenURI });
     setIpfsTokenURI(response);
+    
+    const signer = new ethers.Wallet(process.env.SEPOLIA_PRIVATE_KEY, new ethers.providers.JsonRpcProvider(process.env.SEPOLIA_RPC_URL));
+
+    const options = { gasLimit: 600000 };
+    if(chainId == process.env.SEPOLIA_CHAIN_ID){
+      const certificateSepolia = new ethers.Contract(
+        process.env.CERTIFICATE_SEPOLIA_ADDRESS,
+        certificateSepoliaABI,
+        signer
+      );
+      let transactionResponse = await certificateSepolia.mint(
+        receiverStudentAddress,
+        ipfsTokenURI,
+        options
+      );
+      const receipt = await transactionResponse.wait(1);
+      console.log(receipt);
+      if(receipt.status == 1){
+        console.log("NFT creation successful on Sepolia");
+      }
+    }else if(chainId == process.env.ARBITRUM_CHAIN_ID){
+      console.log(process.env.SOURCE_MINTER_ADDRESS);
+      const sourceMinter = new ethers.Contract(
+        process.env.SOURCE_MINTER_ADDRESS,
+        sourceMinterABI,
+        signer
+      );
+      let transactionResponse = await sourceMinter.mint(
+        process.env.ARBITRUM_DESTINATION_CHAIN_SELECTOR,
+        process.env.ARBITRUM_DESTINATION_CHAIN_CONTRACT,
+        receiverStudentAddress,
+        ipfsTokenURI,
+        options
+      );
+      const receipt = await transactionResponse.wait(1);
+      console.log(receipt);
+      if(receipt.status == 1){
+        console.log("NFT creation successful on Arbitrum");
+      }
+      
+    }else{
+      console.log("Please select a valid destination chain for NFT");
+    }
     setIsLoading(false);
+
   };
 
   return (
@@ -64,8 +118,8 @@ export default function CertificateModal({
               mt={2}
               onChange={(e) => setChainId(e.target.value)}
             >
-              <option value={11155111}>Sepolia</option>
-              <option value={421614}>Arbitrum</option>
+              <option value={process.env.SEPOLIA_CHAIN_ID}>Sepolia</option>
+              <option value={process.env.ARBITRUM_CHAIN_ID}>Arbitrum</option>
             </Select>
           </FormControl>
 
@@ -76,7 +130,7 @@ export default function CertificateModal({
               fontSize="sm"
               color="brand.500"
             >
-              Uploading your certificate to IPFS ...
+              Uploading your certificate to IPFS and Generating NFT ...
             </Text>
           ) : null}
         </VStack>
@@ -88,7 +142,7 @@ export default function CertificateModal({
             rightIcon={<ArrowRight color={"white"} />}
             onClick={onSubmit}
           >
-            Get Certicicate
+            Get Certificate
           </Button>
         ) : (
           <Button
