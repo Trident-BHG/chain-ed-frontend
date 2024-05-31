@@ -16,6 +16,7 @@ import {
   VStack,
   Button,
   Flex,
+  Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
@@ -96,8 +97,51 @@ export default function HeroSection({ course, ...rest }) {
       mb={2}
       bgColor="gray.50"
       alignItems="flex-start"
+      position="relative"
       {...rest}
     >
+      <VStack
+        bgColor="yellow.500"
+        position="absolute"
+        right="10px"
+        top="0"
+        justifyContent="space-between"
+        px={2}
+        pb={1}
+        borderBottomRadius="md"
+      >
+        <Flex
+          px={4}
+          py={2}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+        >
+          <Text fontWeight="500" fontSize="sm">
+            Enroll for
+          </Text>
+          <Text as="span" lineHeight={1} fontWeight="600" fontSize="2xl">
+            $50
+          </Text>
+        </Flex>
+        <Flex
+          px={2}
+          py={2}
+          bgColor="white"
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          borderBottomRadius="md"
+        >
+          <Text fontWeight="500" fontSize="sm">
+            Cashback
+          </Text>
+          <Text as="span" lineHeight={1} fontWeight="600" fontSize="2xl">
+            $40
+          </Text>
+        </Flex>
+      </VStack>
+
       <Box width="25%" mr={4}>
         <img
           alt="Hero Image"
@@ -108,7 +152,7 @@ export default function HeroSection({ course, ...rest }) {
       </Box>
       <VStack mr={40} alignItems="flex-start">
         <Box>
-          <Heading mb={2}>Javascript for Beginners</Heading>
+          <Heading mb={2}>Introduction to HTML, CSS and Javascript</Heading>
           <Text fontWeight="500" color="gray.500">
             Get on the fast track to a career in JavaScript. In this certificate
             program, you'll learn and earn in-demand skills at your own pace, no
