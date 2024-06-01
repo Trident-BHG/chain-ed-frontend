@@ -39,16 +39,14 @@ export default function CertificateModal({
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const [ipfsTokenURI, setIpfsTokenURI] = useState(null);
-  const [provider, setProvider] = useState(null);
-  const { account } = useMoralis();
-  const receiverStudentAddress = account;
+  const receiverStudentAddress = "0x0B8c649b4aceE00fbC1f4834B0b2ab9d528e6048";
 
   const [chainId, setChainId] = useState(process.env.SEPOLIA_CHAIN_ID);
 
   const onSubmit = async () => {
     setIsLoading(true);
     const response = await modalAction({ userName, chainId });
-    console.log({ ipfsTokenURI });
+    console.log(response);
     setIpfsTokenURI(response);
 
     const signer = new ethers.Wallet(
@@ -84,9 +82,10 @@ export default function CertificateModal({
         process.env.ARBITRUM_DESTINATION_CHAIN_SELECTOR,
         process.env.ARBITRUM_DESTINATION_CHAIN_CONTRACT,
         receiverStudentAddress,
-        ipfsTokenURI,
+        response,
         options,
       );
+      console.log(transactionResponse);
       const receipt = await transactionResponse.wait(1);
       console.log(receipt);
       if (receipt.status == 1) {

@@ -15,33 +15,7 @@ export default function LectureOverviewPage({ children }) {
   const { lectureId } = useParams() || {};
   const [provider, setProvider] = useState(null);
 
-  async function supplyTokensOffline() {
-    const provider = new ethers.providers.JsonRpcProvider(
-      process.env.LOCAL_RPC_ENDPOINT,
-    );
-
-    const signer = new ethers.Wallet(
-      process.env.TEST_USER_PRIVATE_KEY,
-      provider,
-    );
-
-    const LendingContract = new ethers.Contract(
-      process.env.PAYMENT_CONTRACT_ADDRESS,
-      paymentAbi,
-      signer,
-    );
-
-    const tx = await LendingContract.supplyTokens(
-      process.env.USDC_ETH_MAINNET_ADDRESS,
-      ethers.utils.parseUnits("1", 6),
-    );
-
-    const receipt = await provider.getTransactionReceipt(tx.hash);
-
-    console.log(receipt);
-  }
-
-  async function withdrawTokensOffline() {
+  async function withdrawTokensOffline(amountClaimable) {
     const provider = new ethers.providers.JsonRpcProvider(
       process.env.LOCAL_RPC_ENDPOINT,
     );
@@ -59,7 +33,7 @@ export default function LectureOverviewPage({ children }) {
 
     const tx = await LendingContract.withdrawTokens(
       process.env.USDC_ETH_MAINNET_ADDRESS,
-      ethers.utils.parseUnits("1", 6),
+      ethers.utils.parseUnits(amountClaimable.toString(), 6),
     );
 
     const receipt = await provider.getTransactionReceipt(tx.hash);
@@ -68,6 +42,7 @@ export default function LectureOverviewPage({ children }) {
   }
 
   async function claimAmount() {
+    // await withdrawTokensOffline(amountClaimable);
     const PaymentContract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
       paymentAbi,
@@ -198,7 +173,7 @@ export default function LectureOverviewPage({ children }) {
               </div>
             </div>
             <div
-              onClick={() => claimAmount()}
+              onClick={async () => claimAmount()}
               className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700"
             >
               Claim Now
