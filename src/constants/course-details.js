@@ -15,13 +15,14 @@ const courseDetails = [
       sections: [
         {
           name: "Introduction",
-          sectionInfo: "4 lectures | 11 minutes | $4 cashback",
+          sectionInfo: "4 lectures | 11 minutes | $20 cashback",
           subSections: [
             {
               name: "Introduction to HTML, CSS and Javascript",
               content: {
                 type: "video",
                 duration: 4,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/introduction-to-html-css-javascript/overview",
               videoSrc:
@@ -34,6 +35,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 2.0,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/install-vs-code-and-extensions/overview",
               videoSrc:
@@ -46,7 +48,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 5.0,
-                cashback: 2.5,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/basic-structure-of-html-website/overview",
               videoSrc:
@@ -58,7 +60,7 @@ const courseDetails = [
               name: "Chapter task",
               content: {
                 type: "quiz",
-                cashback: 1.5,
+                cashback: 5,
               },
               link: "/course/javascript-for-beginners/lecture/chapter-task-1/quiz",
             },
@@ -66,13 +68,14 @@ const courseDetails = [
         },
         {
           name: "HTML Tutorials",
-          sectionInfo: "4 lectures | 11 minutes | $2.5 cashback",
+          sectionInfo: "4 lectures | 11 minutes | $20 cashback",
           subSections: [
             {
               name: "Heading and Paragraph Tag",
               content: {
                 type: "video",
                 duration: 4,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/heading-and-paragraph-tag/overview",
               videoSrc:
@@ -85,6 +88,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 2,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/links-and-attributes-in-html/overview",
               videoSrc:
@@ -97,6 +101,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 5,
+                cashback: 5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/list-and-tables/overview",
               videoSrc:
@@ -108,7 +113,7 @@ const courseDetails = [
               name: "Chapter task",
               content: {
                 type: "quiz",
-                cashback: 2.5,
+                cashback: 5,
               },
               link: "/course/javascript-for-beginners/lecture/chapter-task-2/quiz",
             },
@@ -116,13 +121,14 @@ const courseDetails = [
         },
         {
           name: "CSS Tutorials",
-          sectionInfo: "4 lectures | 11 minutes | $2.5 cashback",
+          sectionInfo: "4 lectures | 11 minutes | $10 cashback",
           subSections: [
             {
               name: "Introduction to CSS",
               content: {
                 type: "text",
                 duration: 4,
+                cashback: 2.5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/introduction-to-css/overview",
               videoSrc:
@@ -135,6 +141,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 2,
+                cashback: 2.5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/inline-internal-external-css/overview",
               videoSrc:
@@ -147,6 +154,7 @@ const courseDetails = [
               content: {
                 type: "video",
                 duration: 5,
+                cashback: 2.5,
               },
               link: "/course/become-a-certified-web-developer-html-css-js/lecture/css-selectors/overview",
               videoSrc:

@@ -15,7 +15,7 @@ export default function LectureOverviewPage({ children }) {
   const { lectureId } = useParams() || {};
   const [provider, setProvider] = useState(null);
 
-  async function withdrawTokensOffline(amountClaimable) {
+  async function withdrawTokensOffline() {
     const provider = new ethers.providers.JsonRpcProvider(
       process.env.LOCAL_RPC_ENDPOINT,
     );
@@ -39,10 +39,13 @@ export default function LectureOverviewPage({ children }) {
     const receipt = await provider.getTransactionReceipt(tx.hash);
 
     console.log(receipt);
+
+    if (receipt.status == 1) {
+      claimAmount();
+    }
   }
 
   async function claimAmount() {
-    // await withdrawTokensOffline(amountClaimable);
     const PaymentContract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
       paymentAbi,
@@ -173,7 +176,7 @@ export default function LectureOverviewPage({ children }) {
               </div>
             </div>
             <div
-              onClick={async () => claimAmount()}
+              onClick={async () => withdrawTokensOffline()}
               className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700"
             >
               Claim Now
