@@ -47,19 +47,19 @@ export default function CourseInfo(props) {
         <List spacing={3} my={4}>
           <ListItem>
             <ListIcon as={CheckIcon} color="gray.500" />
-            Extensive, informative and interesting video lecture
+            Enroll in Course
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color="gray.500" />
-            Co, UnorderedListmplete Code demonstrated in lecture
+            Complete a course section within given time frame
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color="gray.500" />
-            Extensive, informative and interesting video lecture
+            To be eligible for cashback, you need to pass the Quiz for that section
           </ListItem>
           <ListItem>
             <ListIcon as={CheckIcon} color="gray.500" />
-            Extensive, informative and interesting video lecture
+            On passing the quiz, Claim Cashback
           </ListItem>
         </List>
       </Box>
