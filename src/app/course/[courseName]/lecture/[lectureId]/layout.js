@@ -38,14 +38,13 @@ export default function LectureOverviewPage({ children }) {
 
     const receipt = await provider.getTransactionReceipt(tx.hash);
 
-    console.log(receipt);
-
     if (receipt.status == 1) {
-      claimAmount();
+      return true;
     }
   }
 
   async function claimAmount() {
+    // await withdrawTokensOffline();
     const PaymentContract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
       paymentAbi,
@@ -60,9 +59,10 @@ export default function LectureOverviewPage({ children }) {
     );
 
     let receipt = await provider.getTransactionReceipt(tx.hash);
-    console.log(receipt);
 
-    getAmountClaimableByTheUser(provider);
+    if (receipt.status == 1) {
+      getAmountClaimableByTheUser(provider);
+    }
   }
 
   async function getAmountClaimableByTheUser(provider) {
@@ -176,7 +176,7 @@ export default function LectureOverviewPage({ children }) {
               </div>
             </div>
             <div
-              onClick={async () => withdrawTokensOffline()}
+              onClick={async () => claimAmount()}
               className="cursor-pointer rounded-lg border-4 border-green-700 bg-green-400 p-2 font-semibold text-green-700"
             >
               Claim Now

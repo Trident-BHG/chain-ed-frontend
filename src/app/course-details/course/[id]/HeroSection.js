@@ -68,32 +68,6 @@ export default function HeroSection({ course, ...rest }) {
     console.log(receipt);
   }
 
-  async function withdrawTokensOffline() {
-    const provider = new ethers.providers.JsonRpcProvider(
-      process.env.LOCAL_RPC_ENDPOINT,
-    );
-
-    const signer = new ethers.Wallet(
-      process.env.TEST_USER_PRIVATE_KEY,
-      provider,
-    );
-
-    const LendingContract = new ethers.Contract(
-      process.env.PAYMENT_CONTRACT_ADDRESS,
-      paymentAbi,
-      signer,
-    );
-
-    const tx = await LendingContract.withdrawTokens(
-      process.env.USDC_ETH_MAINNET_ADDRESS,
-      ethers.utils.parseUnits("50", 6),
-    );
-
-    const receipt = await provider.getTransactionReceipt(tx.hash);
-
-    console.log(receipt);
-  }
-
   async function enrollTheUser() {
     const Contract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
@@ -129,7 +103,7 @@ export default function HeroSection({ course, ...rest }) {
 
     // change the status of the button if receipt.status == 1
     if (receipt.status == 1) {
-      await supplyTokensOffline();
+      // await supplyTokensOffline();
       setIsUserEnrolled(true);
     }
   }
