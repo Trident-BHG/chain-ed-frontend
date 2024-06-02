@@ -15,7 +15,7 @@ export default function QuizQuestionPanel({
   question,
   currentQuestionIdx,
   attemptedQuestionIndices,
-  totalQuestions
+  totalQuestions,
 }) {
   const { questionText } = question || {};
   return (
@@ -81,10 +81,6 @@ function QuestionTopBar({
           );
         })}
       </Box>
-      <Center mr={6} color="brand.600" fontWeight="500">
-        <Icon as={TimeIcon} width="20px" height="20px" mx={2} />
-        03:42
-      </Center>
     </Flex>
   );
 }

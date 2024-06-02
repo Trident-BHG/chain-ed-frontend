@@ -103,7 +103,7 @@ export default function HeroSection({ course, ...rest }) {
 
     // change the status of the button if receipt.status == 1
     if (receipt.status == 1) {
-      // await supplyTokensOffline();
+      await supplyTokensOffline();
       setIsUserEnrolled(true);
     }
   }

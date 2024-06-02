@@ -44,7 +44,7 @@ export default function LectureOverviewPage({ children }) {
   }
 
   async function claimAmount() {
-    // await withdrawTokensOffline();
+    await withdrawTokensOffline();
     const PaymentContract = new ethers.Contract(
       process.env.PAYMENT_CONTRACT_ADDRESS,
       paymentAbi,
