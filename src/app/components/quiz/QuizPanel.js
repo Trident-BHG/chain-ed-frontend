@@ -192,6 +192,8 @@ export default function QuizPanel({ quiz }) {
         setIsUserInputModalOpen(true); // show userInput modal
         return;
       }
+
+      completeCourseSubsection();
       // else move to the next section of the course
       router.push(nextSectionLink);
     }
